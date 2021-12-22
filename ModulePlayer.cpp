@@ -119,7 +119,7 @@ bool ModulePlayer::Start()
 	
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 2);
-	car.chassis_offset.Set(0, 0.3, 0);
+	car.chassis_offset.Set(0, 0.4, 0);
 	car.mass = 500.0f; // 500.0f
 	car.suspensionStiffness = 15.88f; // 15.88f  (fuerza de la suspension, fuerza de los springs de suspension)
 	car.suspensionCompression = 0.83f; // 0.83f (cuanto mas alto menos se comprime la suspension, limite de compresion)
@@ -131,8 +131,9 @@ bool ModulePlayer::Start()
 	// Wheel properties ---------------------------------------
 	float connection_height = 0.1f; // 1.6f (altura de las ruedas en la suspension)
 	float wheel_radius = 0.1f; 
-	float wheel_width = 0.1f;
+	float wheel_width = 0.6f;
 	float suspensionRestLength = 1.0f; //1.2f (ESPACIO DE LA SUSPENSION -> suspension => rueda)
+	float movementCoef = 0.3f;
 
 	// Don't change anything below this line ------------------
 
@@ -142,11 +143,11 @@ bool ModulePlayer::Start()
 	vec3 direction(0,-1,0);
 	vec3 axis(-1,0,0);
 	
-	car.num_wheels = 6;
-	car.wheels = new Wheel[6];
+	car.num_wheels = 10;
+	car.wheels = new Wheel[10];
 
 	// FRONT-LEFT ------------------------
-	car.wheels[0].connection.Set(half_width - 0.3f * wheel_width, connection_height, half_length - wheel_radius);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[0].connection.Set(half_width + wheel_width*0.5 + movementCoef, connection_height, half_length + wheel_radius);// (distancia en x del centro del coche, en z, en y)
 	car.wheels[0].direction = direction;
 	car.wheels[0].axis = axis;
 	car.wheels[0].suspensionRestLength = suspensionRestLength;
@@ -158,7 +159,7 @@ bool ModulePlayer::Start()
 	car.wheels[0].steering = true;
 
 	// FRONT-RIGHT ------------------------
-	car.wheels[1].connection.Set(-half_width + 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+	car.wheels[1].connection.Set(-half_width - wheel_width * 0.5 - movementCoef, connection_height, half_length + wheel_radius);
 	car.wheels[1].direction = direction;
 	car.wheels[1].axis = axis;
 	car.wheels[1].suspensionRestLength = suspensionRestLength;
@@ -170,7 +171,7 @@ bool ModulePlayer::Start()
 	car.wheels[1].steering = true;
 	
 	// REAR-LEFT ------------------------
-	car.wheels[2].connection.Set(half_width - 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+	car.wheels[2].connection.Set(half_width + wheel_width * 0.5 + movementCoef, connection_height, -half_length - wheel_radius);
 	car.wheels[2].direction = direction;
 	car.wheels[2].axis = axis;
 	car.wheels[2].suspensionRestLength = suspensionRestLength;
@@ -182,7 +183,7 @@ bool ModulePlayer::Start()
 	car.wheels[2].steering = false;
 
 	// REAR-RIGHT ------------------------
-	car.wheels[3].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+	car.wheels[3].connection.Set(-half_width - wheel_width * 0.5 - movementCoef, connection_height, -half_length - wheel_radius);
 	car.wheels[3].direction = direction;
 	car.wheels[3].axis = axis;
 	car.wheels[3].suspensionRestLength = suspensionRestLength;
@@ -194,7 +195,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	// MIDDLE-LEFT ------------------------
-	car.wheels[4].connection.Set(half_width - 0.3f * wheel_width, connection_height, 0);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[4].connection.Set(half_width + wheel_width * 0.5 + movementCoef, connection_height, 0);// (distancia en x del centro del coche, en z, en y)
 	car.wheels[4].direction = direction;
 	car.wheels[4].axis = axis;
 	car.wheels[4].suspensionRestLength = suspensionRestLength;
@@ -206,7 +207,7 @@ bool ModulePlayer::Start()
 	car.wheels[4].steering = false;
 
 	// MIDDLE-RIGHT ------------------------
-	car.wheels[5].connection.Set((half_width - 0.3f * wheel_width)*-1.0f, connection_height, 0);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[5].connection.Set(-half_width - wheel_width * 0.5 - movementCoef, connection_height, 0);// (distancia en x del centro del coche, en z, en y)
 	car.wheels[5].direction = direction;
 	car.wheels[5].axis = axis;
 	car.wheels[5].suspensionRestLength = suspensionRestLength;
@@ -216,6 +217,56 @@ bool ModulePlayer::Start()
 	car.wheels[5].drive = false;
 	car.wheels[5].brake = false;
 	car.wheels[5].steering = false;
+
+	// ENGYNE FRONT LEFT ------------------------
+	car.wheels[6].connection.Set(half_width + wheel_width * 0.5 + movementCoef, 1, half_length + 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[6].direction = direction;
+	car.wheels[6].axis = axis;
+	car.wheels[6].suspensionRestLength = suspensionRestLength;
+	car.wheels[6].radius = wheel_radius*2;
+	car.wheels[6].width = wheel_width;
+	car.wheels[6].front = true;
+	car.wheels[6].drive = true;
+	car.wheels[6].brake = false;
+	car.wheels[6].steering = false;
+
+	// ENGYNE FRONT RIGHT ------------------------
+	car.wheels[7].connection.Set(-half_width - wheel_width * 0.5 - movementCoef, 1, half_length + 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[7].direction = direction;
+	car.wheels[7].axis = axis;
+	car.wheels[7].suspensionRestLength = suspensionRestLength;
+	car.wheels[7].radius = wheel_radius*2;
+	car.wheels[7].width = wheel_width;
+	car.wheels[7].front = true;
+	car.wheels[7].drive = true;
+	car.wheels[7].brake = false;
+	car.wheels[7].steering = false;
+
+	// ENGYNE BACK LEFT ------------------------
+	car.wheels[8].connection.Set(half_width + wheel_width * 0.5 + movementCoef, 1, -half_length - 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[8].direction = direction;
+	car.wheels[8].axis = axis;
+	car.wheels[8].suspensionRestLength = suspensionRestLength;
+	car.wheels[8].radius = wheel_radius * 2;
+	car.wheels[8].width = wheel_width;
+	car.wheels[8].front = true;
+	car.wheels[8].drive = true;
+	car.wheels[8].brake = false;
+	car.wheels[8].steering = false;
+
+	// ENGYNE BACK RIGHT ------------------------
+	car.wheels[9].connection.Set(-half_width - wheel_width * 0.5 - movementCoef, 1,- half_length - 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[9].direction = direction;
+	car.wheels[9].axis = axis;
+	car.wheels[9].suspensionRestLength = suspensionRestLength;
+	car.wheels[9].radius = wheel_radius * 2;
+	car.wheels[9].width = wheel_width;
+	car.wheels[9].front = true;
+	car.wheels[9].drive = true;
+	car.wheels[9].brake = false;
+	car.wheels[9].steering = false;
+
+
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(5, 0, 0);
@@ -280,11 +331,7 @@ update_status ModulePlayer::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-update_status ModulePlayer::PostUpdate()
-{
-	return UPDATE_CONTINUE;
 
-}
 
 
 
