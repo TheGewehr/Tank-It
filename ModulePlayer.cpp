@@ -20,6 +20,107 @@ bool ModulePlayer::Start()
 
 	VehicleInfo car;
 
+
+	/////////////////////////////////////////////////////////////////////
+
+	App->camera->Move(vec3(0.0f, 1.0f, 1.0f));
+	App->camera->LookAt(vec3(0, 0, 0));
+
+	const int SnakeLength = 30;
+	const float StartingSize = 0.3f;
+	const float SizeIncrement = 0.2f;
+	const float BallDistance = 0.3f;
+
+	float XPos = 0.0f;
+	float ZPos = 1.0f;
+	float Size = StartingSize;
+
+	vec3 size = { 0.1f, 0.1f, 0.5f };
+
+	float section = SnakeLength * 0.25;
+
+	float distanceNodeToNode = (size.x * 0.5) + 0.019f;
+
+	for (int n = 0; n < SnakeLength; n++)
+	{
+		if (section > n)
+		{
+			Cube* s = new Cube(size);
+			primitives.add(s);
+			s->SetPos(XPos + n, 1.f, ZPos);
+			s->SetRotation(0, vec3(XPos, 1.f, ZPos));
+
+			XPos += StartingSize + BallDistance;
+		}
+		else if ((section * 2) > n && n >= section)
+		{
+			Cube* s = new Cube(size);
+			primitives.add(s);
+			s->SetPos(XPos + n, 10.f, ZPos);
+			s->SetRotation(90, vec3(XPos, 1.f, ZPos));
+
+			ZPos += StartingSize + BallDistance;
+		}
+		else if ((section * 3) > n && n >= section * 2)
+		{
+			Cube* s = new Cube(size);
+			primitives.add(s);
+			s->SetPos(XPos + n, 10.f, ZPos);
+			s->SetRotation(180, vec3(XPos, 1.f, ZPos));
+
+			XPos -= StartingSize + BallDistance;
+		}
+		else
+		{
+			Cube* s = new Cube(size);
+			primitives.add(s);
+			s->SetPos(XPos + n, 10.f, ZPos);
+			s->SetRotation(270, vec3(XPos, 1.f, ZPos));
+
+			ZPos -= StartingSize + BallDistance;
+		}
+
+
+
+		//Cube* s = new Cube(size);
+		//primitives.add(s);
+		//s->SetPos(XPos + 1.5*sin(n), 1.f + 0.5*cos(n), ZPos);
+		//s->SetRotation(0, vec3(XPos, 1.f, ZPos));
+
+		//XPos += StartingSize + BallDistance;
+		LOG("%f", cos(n));
+
+
+
+
+		if (n == 0)
+		{
+
+		}
+		else if (n == SnakeLength - 1)
+		{
+			
+
+			App->physics->AddConstraintHinge(primitives.getLast()->prev->data->body, primitives.getLast()->data->body,
+				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+			App->physics->AddConstraintHinge(primitives.getLast()->data->body, primitives.getFirst()->data->body,
+				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+
+		}
+		else
+		{
+
+
+			App->physics->AddConstraintHinge(primitives.getLast()->prev->data->body, primitives.getLast()->data->body,
+				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+
+
+		}
+
+	}
+
+	/////////////////////////////////////////////////////////////////////
+
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 2);
 	car.chassis_offset.Set(0, 0.3, 0);

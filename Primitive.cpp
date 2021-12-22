@@ -110,6 +110,17 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 	type = PrimitiveTypes::Primitive_Cube;
 }
 
+Cube::Cube(const vec3& _size, float mass) : Primitive(), size(_size)
+{
+	type = PrimitiveTypes::Primitive_Cube;
+	body.SetBodyCube(this, mass);
+}
+
+vec3 Cube::GetSize() const
+{
+	return size;
+}
+
 void Cube::InnerRender() const
 {	
 	float sx = size.x * 0.5f;

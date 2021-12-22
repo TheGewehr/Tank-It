@@ -2,6 +2,7 @@
 #pragma once
 #include "glmath.h"
 #include "Color.h"
+#include "PhysBody3D.h"
 
 enum PrimitiveTypes
 {
@@ -31,6 +32,7 @@ public:
 	Color color;
 	mat4x4 transform;
 	bool axis,wire;
+	PhysBody3D body;
 
 protected:
 	PrimitiveTypes type;
@@ -43,8 +45,11 @@ public :
 	Cube();
 	Cube(float sizeX, float sizeY, float sizeZ);
 	void InnerRender() const;
+	Cube(const vec3& size = vec3(1.f, 1.f, 1.f), float mass = 1.f);
+	vec3 GetSize() const;
 public:
 	vec3 size;
+
 };
 
 // ============================================
