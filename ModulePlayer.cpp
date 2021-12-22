@@ -99,8 +99,6 @@ bool ModulePlayer::Start()
 		}
 		else if (n == SnakeLength - 1)
 		{
-			
-
 			App->physics->AddConstraintHinge(primitives.getLast()->prev->data->body, primitives.getLast()->data->body,
 				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 			App->physics->AddConstraintHinge(primitives.getLast()->data->body, primitives.getFirst()->data->body,
@@ -109,8 +107,6 @@ bool ModulePlayer::Start()
 		}
 		else
 		{
-
-
 			App->physics->AddConstraintHinge(primitives.getLast()->prev->data->body, primitives.getLast()->data->body,
 				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 
@@ -120,7 +116,7 @@ bool ModulePlayer::Start()
 	}
 
 	/////////////////////////////////////////////////////////////////////
-
+	
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 2);
 	car.chassis_offset.Set(0, 0.3, 0);
@@ -222,7 +218,7 @@ bool ModulePlayer::Start()
 	car.wheels[5].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 0, 0);
+	vehicle->SetPos(5, 0, 0);
 	
 	return true;
 }
@@ -268,11 +264,26 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
+
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
 
+	for (int i = 0; i < primitives.count(); i++)
+	{
+		Primitive* dummy;
+		
+		primitives.at(i, dummy);
+		dummy->Render();
+	}
+
 	return UPDATE_CONTINUE;
+}
+
+update_status ModulePlayer::PostUpdate()
+{
+	return UPDATE_CONTINUE;
+
 }
 
 

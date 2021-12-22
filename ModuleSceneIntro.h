@@ -1,18 +1,23 @@
 #pragma once
+#include "Application.h"
 #include "Module.h"
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "PhysBody3D.h"
 
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
 struct PhysMotor3D;
+class Cube;
 
 class ModuleSceneIntro : public Module
 {
 public:
+
 	ModuleSceneIntro(Application* app, bool start_enabled = true);
+
 	~ModuleSceneIntro();
 
 	bool Start();
@@ -31,7 +36,7 @@ public:
 	*/
 
 	PhysBody3D* pb_chassis;
-	Cube p_chassis;
+	Cube *p_chassis;
 
 	PhysBody3D* pb_wheel;
 	Cylinder p_wheel;

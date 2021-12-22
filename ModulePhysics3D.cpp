@@ -273,6 +273,11 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder& cylinder, float mass)
 	return pbody;
 }
 
+void ModulePhysics3D::AddBodyToWorld(btRigidBody* body)
+{
+	world->addRigidBody(body);
+}
+
 // ---------------------------------------------------------
 PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 {

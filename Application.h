@@ -40,9 +40,12 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	bool renderPrimitives = true;
+
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+extern Application* App;

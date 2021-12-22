@@ -1,4 +1,4 @@
-
+#include "Application.h"
 #include "Globals.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -23,7 +23,7 @@ void Primitive::Render() const
 	glPushMatrix();
 	glMultMatrixf(transform.M);
 
-	if(axis == true)
+	if (axis == true)
 	{
 		// Draw Axis Grid
 		glLineWidth(2.0f);
@@ -55,9 +55,10 @@ void Primitive::Render() const
 		glLineWidth(1.0f);
 	}
 
+
 	glColor3f(color.r, color.g, color.b);
 
-	if(wire)
+	if (wire || App->renderPrimitives == false)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -73,7 +74,7 @@ void Primitive::InnerRender() const
 	glPointSize(5.0f);
 
 	glBegin(GL_POINTS);
-
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 
 	glEnd();

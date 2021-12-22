@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "Primitive.h"
 #include "glmath.h"
+#include "ModulePhysics3D.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
 // =================================================
