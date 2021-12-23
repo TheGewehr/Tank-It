@@ -26,6 +26,7 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+	vec3 size;
 
 	p2List<Primitive*>primitives;
 };

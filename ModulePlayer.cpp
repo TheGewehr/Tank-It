@@ -26,16 +26,16 @@ bool ModulePlayer::Start()
 	App->camera->Move(vec3(0.0f, 1.0f, 1.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	const int SnakeLength = 30;
+	const int SnakeLength = 3;
 	const float StartingSize = 0.3f;
 	const float SizeIncrement = 0.2f;
 	const float BallDistance = 0.3f;
 
-	float XPos = 0.0f;
-	float ZPos = 1.0f;
+	float XPos = 20.0f;
+	float ZPos = 20.0f;
 	float Size = StartingSize;
 
-	vec3 size = { 0.1f, 0.1f, 0.5f };
+	size = { 0.5f, 0.1f, 0.5f };
 
 	float section = SnakeLength * 0.25;
 
@@ -43,49 +43,49 @@ bool ModulePlayer::Start()
 
 	for (int n = 0; n < SnakeLength; n++)
 	{
-		if (section > n)
-		{
-			Cube* s = new Cube(size);
-			primitives.add(s);
-			s->SetPos(XPos + n, 1.f, ZPos);
-			s->SetRotation(0, vec3(XPos, 1.f, ZPos));
+		//if (section > n)
+		//{
+		//	Cube* s = new Cube(size);
+		//	primitives.add(s);
+		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	s->SetRotation(0, vec3(XPos, 1.f, ZPos));
+		//
+		//	XPos += StartingSize + BallDistance;
+		//}
+		//else if ((section * 2) > n && n >= section)
+		//{
+		//	Cube* s = new Cube(size);
+		//	primitives.add(s);
+		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	s->SetRotation(90, vec3(XPos, 1.f, ZPos));
+		//
+		//	ZPos += StartingSize + BallDistance;
+		//}
+		//else if ((section * 3) > n && n >= section * 2)
+		//{
+		//	Cube* s = new Cube(size);
+		//	primitives.add(s);
+		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	s->SetRotation(180, vec3(XPos, 1.f, ZPos));
+		//
+		//	XPos -= StartingSize + BallDistance;
+		//}
+		//else
+		//{
+		//	Cube* s = new Cube(size);
+		//	primitives.add(s);
+		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	s->SetRotation(270, vec3(XPos, 1.f, ZPos));
+		//
+		//	ZPos -= StartingSize + BallDistance;
+		//}
 
-			XPos += StartingSize + BallDistance;
-		}
-		else if ((section * 2) > n && n >= section)
-		{
-			Cube* s = new Cube(size);
-			primitives.add(s);
-			s->SetPos(XPos + n, 10.f, ZPos);
-			s->SetRotation(90, vec3(XPos, 1.f, ZPos));
-
-			ZPos += StartingSize + BallDistance;
-		}
-		else if ((section * 3) > n && n >= section * 2)
-		{
-			Cube* s = new Cube(size);
-			primitives.add(s);
-			s->SetPos(XPos + n, 10.f, ZPos);
-			s->SetRotation(180, vec3(XPos, 1.f, ZPos));
-
-			XPos -= StartingSize + BallDistance;
-		}
-		else
-		{
-			Cube* s = new Cube(size);
-			primitives.add(s);
-			s->SetPos(XPos + n, 10.f, ZPos);
-			s->SetRotation(270, vec3(XPos, 1.f, ZPos));
-
-			ZPos -= StartingSize + BallDistance;
-		}
 
 
-
-		//Cube* s = new Cube(size);
-		//primitives.add(s);
-		//s->SetPos(XPos + 1.5*sin(n), 1.f + 0.5*cos(n), ZPos);
-		//s->SetRotation(0, vec3(XPos, 1.f, ZPos));
+		Cube* s = new Cube(size);
+		primitives.add(s);
+		s->SetPos(XPos + 1.5*sin(n), 1.f + 0.5*cos(n), ZPos);
+		s->SetRotation(0, vec3(XPos, 1.f, ZPos));
 
 		//XPos += StartingSize + BallDistance;
 		LOG("%f", cos(n));
@@ -135,6 +135,8 @@ bool ModulePlayer::Start()
 	float suspensionRestLength = 1.0f; //1.2f (ESPACIO DE LA SUSPENSION -> suspension => rueda)
 	float movementCoef = 0.3f;
 
+	float wheel_radius_special = 0.3f;
+
 	// Don't change anything below this line ------------------
 
 	float half_width = car.chassis_size.x*0.5f;
@@ -144,8 +146,14 @@ bool ModulePlayer::Start()
 	vec3 axis(-1,0,0);
 	
 	car.num_wheels = 10;
+
+	//Wheel wel[10];
+	//car.wheels =  wel;
+
 	car.wheels = new Wheel[10];
 
+	// la altura de las ruedas si que cambia, lo que no cambia el el print, que es el mismo para todas
+	
 	// FRONT-LEFT ------------------------
 	car.wheels[0].connection.Set(half_width + wheel_width*0.5 + movementCoef, connection_height, half_length + wheel_radius);// (distancia en x del centro del coche, en z, en y)
 	car.wheels[0].direction = direction;
@@ -223,7 +231,7 @@ bool ModulePlayer::Start()
 	car.wheels[6].direction = direction;
 	car.wheels[6].axis = axis;
 	car.wheels[6].suspensionRestLength = suspensionRestLength;
-	car.wheels[6].radius = wheel_radius*2;
+	car.wheels[6].radius = wheel_radius*3;
 	car.wheels[6].width = wheel_width;
 	car.wheels[6].front = true;
 	car.wheels[6].drive = true;
@@ -235,7 +243,7 @@ bool ModulePlayer::Start()
 	car.wheels[7].direction = direction;
 	car.wheels[7].axis = axis;
 	car.wheels[7].suspensionRestLength = suspensionRestLength;
-	car.wheels[7].radius = wheel_radius*2;
+	car.wheels[7].radius = wheel_radius*3;
 	car.wheels[7].width = wheel_width;
 	car.wheels[7].front = true;
 	car.wheels[7].drive = true;
@@ -247,7 +255,7 @@ bool ModulePlayer::Start()
 	car.wheels[8].direction = direction;
 	car.wheels[8].axis = axis;
 	car.wheels[8].suspensionRestLength = suspensionRestLength;
-	car.wheels[8].radius = wheel_radius * 2;
+	car.wheels[8].radius = wheel_radius * 3;
 	car.wheels[8].width = wheel_width;
 	car.wheels[8].front = true;
 	car.wheels[8].drive = true;
@@ -259,7 +267,7 @@ bool ModulePlayer::Start()
 	car.wheels[9].direction = direction;
 	car.wheels[9].axis = axis;
 	car.wheels[9].suspensionRestLength = suspensionRestLength;
-	car.wheels[9].radius = wheel_radius * 2;
+	car.wheels[9].radius = wheel_radius * 3;
 	car.wheels[9].width = wheel_width;
 	car.wheels[9].front = true;
 	car.wheels[9].drive = true;

@@ -4,6 +4,7 @@
 #include <gl/GLU.h>
 #include "Primitive.h"
 #include "glut/glut.h"
+#include "ModulePlayer.h"
 
 #pragma comment (lib, "glut/glut32.lib")
 
@@ -20,6 +21,55 @@ PrimitiveTypes Primitive::GetType() const
 // ------------------------------------------------------------
 void Primitive::Render() const
 {
+	
+
+	//mode->
+	//
+	//	wheel.radius = info.wheels[i].radius;
+	//	wheel.height = info.wheels[i].width;
+	//
+	//	vehicle->updateWheelTransform(i);
+	//	vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
+	//
+	//	wheel.Render();
+	
+		// Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
+		// vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
+		// btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
+		// btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
+		// offset = offset.rotate(q.getAxis(), q.getAngle());
+
+		//Primitive_Point,
+		//	Primitive_Line,
+		//	Primitive_Plane,
+		//	Primitive_Cube,
+		//	Primitive_Sphere,
+		//	Primitive_Cylinder
+
+		//for (int i = 0; i < App->player->primitives.count(); ++i)
+		//{
+		//	Primitive *yeet = new Primitive();
+		//
+		//	
+		//
+		//	App->player->primitives.at(i, yeet);
+		//
+		//	if (yeet->GetType() == Primitive_Cube)
+		//	{
+		//		Cube* mode = new Cube(App->player->size);
+		//		mode->color = Red;
+		//
+		//		mode->body.body->getCenterOfMassTransform();
+		//		//mode->transform = mode->body.body->getCenterOfMassTransform();
+		//		//
+		//		//vehicle->updateWheelTransform(i);
+		//		//vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
+		//
+		//		mode->Render();
+		//	}
+		//}
+
+
 	glPushMatrix();
 	glMultMatrixf(transform.M);
 
