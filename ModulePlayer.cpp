@@ -26,7 +26,7 @@ bool ModulePlayer::Start()
 	App->camera->Move(vec3(0.0f, 1.0f, 1.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	const int SnakeLength = 3;
+	const int SnakeLength = 11;
 	const float StartingSize = 0.3f;
 	const float SizeIncrement = 0.2f;
 	const float BallDistance = 0.3f;
@@ -46,8 +46,9 @@ bool ModulePlayer::Start()
 		//if (section > n)
 		//{
 		//	Cube* s = new Cube(size);
-		//	primitives.add(s);
 		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	primitives.add(s);
+		//	//s->SetPos(XPos + n, 10.f, ZPos);
 		//	s->SetRotation(0, vec3(XPos, 1.f, ZPos));
 		//
 		//	XPos += StartingSize + BallDistance;
@@ -55,8 +56,9 @@ bool ModulePlayer::Start()
 		//else if ((section * 2) > n && n >= section)
 		//{
 		//	Cube* s = new Cube(size);
-		//	primitives.add(s);
 		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	primitives.add(s);
+		//	//s->SetPos(XPos + n, 10.f, ZPos);
 		//	s->SetRotation(90, vec3(XPos, 1.f, ZPos));
 		//
 		//	ZPos += StartingSize + BallDistance;
@@ -64,8 +66,9 @@ bool ModulePlayer::Start()
 		//else if ((section * 3) > n && n >= section * 2)
 		//{
 		//	Cube* s = new Cube(size);
-		//	primitives.add(s);
 		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	primitives.add(s);
+		//	//s->SetPos(XPos + n, 10.f, ZPos);
 		//	s->SetRotation(180, vec3(XPos, 1.f, ZPos));
 		//
 		//	XPos -= StartingSize + BallDistance;
@@ -73,8 +76,9 @@ bool ModulePlayer::Start()
 		//else
 		//{
 		//	Cube* s = new Cube(size);
-		//	primitives.add(s);
 		//	s->SetPos(XPos + n, 10.f, ZPos);
+		//	primitives.add(s);
+		//	//s->SetPos(XPos + n, 10.f, ZPos);
 		//	s->SetRotation(270, vec3(XPos, 1.f, ZPos));
 		//
 		//	ZPos -= StartingSize + BallDistance;
@@ -86,8 +90,8 @@ bool ModulePlayer::Start()
 		primitives.add(s);
 		s->SetPos(XPos + 1.5*sin(n), 1.f + 0.5*cos(n), ZPos);
 		s->SetRotation(0, vec3(XPos, 1.f, ZPos));
-
-		//XPos += StartingSize + BallDistance;
+		
+		XPos += StartingSize + BallDistance;
 		LOG("%f", cos(n));
 
 
@@ -124,12 +128,12 @@ bool ModulePlayer::Start()
 	car.suspensionStiffness = 15.88f; // 15.88f  (fuerza de la suspension, fuerza de los springs de suspension)
 	car.suspensionCompression = 0.83f; // 0.83f (cuanto mas alto menos se comprime la suspension, limite de compresion)
 	car.suspensionDamping = 0.88f; // 0.88f (rigidez de la suspension)
-	car.maxSuspensionTravelCm = 1000.0f;// 1000.0f (maxima distancia de movimiento de la suspension)
+	car.maxSuspensionTravelCm = 20.0f;// 1000.0f (maxima distancia de movimiento de la suspension, maximo recorrido)
 	car.frictionSlip = 50.5; // 50.5 (friccion de las ruedas)
 	car.maxSuspensionForce = 6000.0f; // 6000.0f  (Maxima fuerza que puede ejercer la suspension)
 
 	// Wheel properties ---------------------------------------
-	float connection_height = 0.1f; // 1.6f (altura de las ruedas en la suspension)
+	float connection_height = 0.3f; // 1.6f (altura de las ruedas en la suspension)
 	float wheel_radius = 0.1f; 
 	float wheel_width = 0.6f;
 	float suspensionRestLength = 1.0f; //1.2f (ESPACIO DE LA SUSPENSION -> suspension => rueda)
@@ -370,11 +374,16 @@ bool ModulePlayer::Start()
 	car.wheels[17].brake = false;
 	car.wheels[17].steering = false;
 
-	// Add auxiliary weels
+	
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(5, 0, 0);
+	vehicle->SetPos(5, 2, 2);
 	
+
+
+	// Hacer que spawnee la chain ya en circulo para que aterrice en el cauce
+	
+
 	return true;
 }
 
