@@ -145,12 +145,12 @@ bool ModulePlayer::Start()
 	vec3 direction(0,-1,0);
 	vec3 axis(-1,0,0);
 	
-	car.num_wheels = 10;
+	car.num_wheels = 18;
 
 	//Wheel wel[10];
 	//car.wheels =  wel;
 
-	car.wheels = new Wheel[10];
+	car.wheels = new Wheel[18];
 
 	// la altura de las ruedas si que cambia, lo que no cambia el el print, que es el mismo para todas
 	
@@ -274,7 +274,103 @@ bool ModulePlayer::Start()
 	car.wheels[9].brake = false;
 	car.wheels[9].steering = false;
 
+	// ENGYNE AUXILIAR 01 FRONT LEFT ------------------------
+	car.wheels[10].connection.Set(half_width + wheel_width  + movementCoef+  (wheel_width * 0.2f)*0.5, 1, half_length + 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[10].direction = direction;
+	car.wheels[10].axis = axis;
+	car.wheels[10].suspensionRestLength = suspensionRestLength;
+	car.wheels[10].radius = wheel_radius * 4.f;
+	car.wheels[10].width = wheel_width*0.2f;
+	car.wheels[10].front = true;
+	car.wheels[10].drive = false;
+	car.wheels[10].brake = false;
+	car.wheels[10].steering = false;
 
+	// ENGYNE AUXILIAR 02 FRONT LEFT ------------------------
+	car.wheels[11].connection.Set(half_width  + movementCoef - (wheel_width * 0.2f) * 0.5, 1, half_length + 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[11].direction = direction;
+	car.wheels[11].axis = axis;
+	car.wheels[11].suspensionRestLength = suspensionRestLength;
+	car.wheels[11].radius = wheel_radius * 4.f;
+	car.wheels[11].width = wheel_width * 0.2f;
+	car.wheels[11].front = true;
+	car.wheels[11].drive = false;
+	car.wheels[11].brake = false;
+	car.wheels[11].steering = false;
+
+	// ENGYNE AUXILIAR 01 FRONT RIGHT ------------------------
+	car.wheels[12].connection.Set(-half_width - wheel_width - movementCoef - (wheel_width * 0.2f) * 0.5, 1, half_length + 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[12].direction = direction;
+	car.wheels[12].axis = axis;
+	car.wheels[12].suspensionRestLength = suspensionRestLength;
+	car.wheels[12].radius = wheel_radius * 4.f;
+	car.wheels[12].width = wheel_width * 0.2f;
+	car.wheels[12].front = true;
+	car.wheels[12].drive = false;
+	car.wheels[12].brake = false;
+	car.wheels[12].steering = false;
+
+	// ENGYNE AUXILIAR 02 FRONT RIGHT ------------------------
+	car.wheels[13].connection.Set(-half_width  - movementCoef + (wheel_width * 0.2f) * 0.5, 1, half_length + 1);// (distancia en x del centro del coche, en z, en y)
+	car.wheels[13].direction = direction;
+	car.wheels[13].axis = axis;
+	car.wheels[13].suspensionRestLength = suspensionRestLength;
+	car.wheels[13].radius = wheel_radius * 4.f;
+	car.wheels[13].width = wheel_width * 0.2f;
+	car.wheels[13].front = true;
+	car.wheels[13].drive = false;
+	car.wheels[13].brake = false;
+	car.wheels[13].steering = false;
+
+	// ENGYNE AUXILIAR 01 BACK RIGHT ------------------------
+	car.wheels[14].connection.Set(-half_width - wheel_width  - movementCoef - (wheel_width * 0.2f) * 0.5, 1, -half_length - 1); // (distancia en x del centro del coche, en z, en y)
+	car.wheels[14].direction = direction;
+	car.wheels[14].axis = axis;
+	car.wheels[14].suspensionRestLength = suspensionRestLength;
+	car.wheels[14].radius = wheel_radius * 4.f;
+	car.wheels[14].width = wheel_width * 0.2f;
+	car.wheels[14].front = true;
+	car.wheels[14].drive = false;
+	car.wheels[14].brake = false;
+	car.wheels[14].steering = false;
+
+	// ENGYNE AUXILIAR 02 BACK RIGHT ------------------------
+	car.wheels[15].connection.Set(-half_width  - movementCoef + (wheel_width * 0.2f) * 0.5, 1, -half_length - 1); // (distancia en x del centro del coche, en z, en y)
+	car.wheels[15].direction = direction;
+	car.wheels[15].axis = axis;
+	car.wheels[15].suspensionRestLength = suspensionRestLength;
+	car.wheels[15].radius = wheel_radius * 4.f;
+	car.wheels[15].width = wheel_width * 0.2f;
+	car.wheels[15].front = true;
+	car.wheels[15].drive = false;
+	car.wheels[15].brake = false;
+	car.wheels[15].steering = false;
+
+	// ENGYNE AUXILIAR 01 BACK LEFT ------------------------
+	car.wheels[16].connection.Set(half_width + wheel_width  + movementCoef + (wheel_width * 0.2f) * 0.5, 1, -half_length - 1); // (distancia en x del centro del coche, en z, en y)
+	car.wheels[16].direction = direction;
+	car.wheels[16].axis = axis;
+	car.wheels[16].suspensionRestLength = suspensionRestLength;
+	car.wheels[16].radius = wheel_radius * 4.f;
+	car.wheels[16].width = wheel_width * 0.2f;
+	car.wheels[16].front = true;
+	car.wheels[16].drive = false;
+	car.wheels[16].brake = false;
+	car.wheels[16].steering = false;
+
+	// ENGYNE AUXILIAR 02 BACK LEFT ------------------------
+	car.wheels[17].connection.Set(half_width  + movementCoef - (wheel_width * 0.2f) * 0.5, 1, -half_length - 1); // (distancia en x del centro del coche, en z, en y)
+	car.wheels[17].direction = direction;
+	car.wheels[17].axis = axis;
+	car.wheels[17].suspensionRestLength = suspensionRestLength;
+	car.wheels[17].radius = wheel_radius * 4.f;
+	car.wheels[17].width = wheel_width * 0.2f;
+	car.wheels[17].front = true;
+	car.wheels[17].drive = false;
+	car.wheels[17].brake = false;
+	car.wheels[17].steering = false;
+
+	// Add auxiliary weels
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(5, 0, 0);
