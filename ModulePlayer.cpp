@@ -26,7 +26,7 @@ bool ModulePlayer::Start()
 	App->camera->Move(vec3(0.0f, 1.0f, 1.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	const int SnakeLength = 11;
+	const int SnakeLength = 30;
 	const float StartingSize = 0.3f;
 	const float SizeIncrement = 0.2f;
 	const float BallDistance = 0.3f;
@@ -40,6 +40,7 @@ bool ModulePlayer::Start()
 	float section = SnakeLength * 0.25;
 
 	float distanceNodeToNode = (size.x * 0.5) + 0.019f;
+	PhysBody3D* aux = NULL;
 
 	for (int n = 0; n < SnakeLength; n++)
 	{
@@ -87,16 +88,18 @@ bool ModulePlayer::Start()
 
 
 		Cube* s = new Cube(size);
-		primitives.add(s);
-		s->SetPos(XPos + 1.5*sin(n), 1.f + 0.5*cos(n), ZPos);
+		s->SetPos(3, 1.f + 0.5*cos(2*3.14f*n/ SnakeLength), 2 * sin(2 * 3.14f * n / SnakeLength));
 		s->SetRotation(0, vec3(XPos, 1.f, ZPos));
 		
-		XPos += StartingSize + BallDistance;
-		LOG("%f", cos(n));
+		primitives.add(s);
+		
+		
+		//XPos += StartingSize + BallDistance;
+		
+		
 
 
-
-
+/*
 		if (n == 0)
 		{
 
@@ -107,6 +110,7 @@ bool ModulePlayer::Start()
 				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 			App->physics->AddConstraintHinge(primitives.getLast()->data->body, primitives.getFirst()->data->body,
 				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+			
 
 		}
 		else
@@ -115,10 +119,22 @@ bool ModulePlayer::Start()
 				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 
 
+		}*/
+		if (n == 0)
+		{
+
 		}
-
+		else
+		{
+			App->physics->AddConstraintHinge(*aux, s->body,
+				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+		}
+	
+		
+		App->physics->AddBody(*s, 1);
+		aux = &s->body;
 	}
-
+	
 	/////////////////////////////////////////////////////////////////////
 	
 	// Car properties ----------------------------------------

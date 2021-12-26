@@ -92,6 +92,7 @@ public:
 			end = p_data_item;
 		}
 		++size;
+
 		return(p_data_item);
 	}
 
