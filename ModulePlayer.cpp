@@ -19,7 +19,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
-
+	TrackInfo try01;
 
 	/////////////////////////////////////////////////////////////////////
 
@@ -42,6 +42,17 @@ bool ModulePlayer::Start()
 	float distanceNodeToNode = (size.x * 0.5) + 0.019f;
 	PhysBody3D* aux = NULL;
 
+	try01.chassis_size.Set(0, 0, 0);
+	try01.chassis_offset.Set(0, 0.4, 0);
+	try01.mass = 500.0f; // 500.0f
+	try01.suspensionStiffness = 15.88f; // 15.88f  (fuerza de la suspension, fuerza de los springs de suspension)
+	try01.suspensionCompression = 0.83f; // 0.83f (cuanto mas alto menos se comprime la suspension, limite de compresion)
+	try01.suspensionDamping = 0.88f; // 0.88f (rigidez de la suspension)
+	try01.maxSuspensionTravelCm = 20.0f;// 1000.0f (maxima distancia de movimiento de la suspension, maximo recorrido)
+	try01.frictionSlip = 50.5; // 50.5 (friccion de las ruedas)
+	try01.maxSuspensionForce = 6000.0f; // 6000.0f  (Maxima fuerza que puede ejercer la suspension)
+
+	try01.wheels = new Track[SnakeLength];
 	for (int n = 0; n < SnakeLength; n++)
 	{
 		//if (section > n)
@@ -84,6 +95,7 @@ bool ModulePlayer::Start()
 		//
 		//	ZPos -= StartingSize + BallDistance;
 		//}
+		/*
 
 
 
@@ -91,10 +103,15 @@ bool ModulePlayer::Start()
 		s->SetPos(3, 1.f + 0.5*cos(2*3.14f*n/ SnakeLength), 2 * sin(2 * 3.14f * n / SnakeLength));
 		s->SetRotation(0, vec3(XPos, 1.f, ZPos));
 		
-		primitives.add(s);
+		primitives.add(s);*/
 		
 		
 		//XPos += StartingSize + BallDistance;
+		try01.wheels[1].connection.Set(3, 1.f + 0.5 * cos(2 * 3.14f * n / SnakeLength), 2 * sin(2 * 3.14f * n / SnakeLength));// (distancia en x del centro del coche, en z, en y)
+		try01.wheels[n].direction = (0, -1, 0);
+		try01.wheels[n].axis = (-1, 0, 0);
+		try01.wheels[n].radius = 1.0f;
+		try01.wheels[n].width = 1.0f;
 		
 		
 
@@ -119,7 +136,7 @@ bool ModulePlayer::Start()
 				vec3(distanceNodeToNode, 0, 0), vec3(-distanceNodeToNode, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 
 
-		}*/
+		}
 		if (n == 0)
 		{
 
@@ -132,10 +149,17 @@ bool ModulePlayer::Start()
 	
 		
 		App->physics->AddBody(*s, 1);
-		aux = &s->body;
+		aux = &s->body;*/
 	}
 	
+
+	//track01 = App->physics->AddVehicle(car);
+	vehicle->SetPos(5, 2, 2);
 	/////////////////////////////////////////////////////////////////////
+	// Try01 properties --------------------------------------
+	
+	
+
 	
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 2);

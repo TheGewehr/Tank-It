@@ -2,6 +2,7 @@
 
 #include "PhysBody3D.h"
 #include "glmath.h"
+#include "Primitive.h"
 
 class btRaycastVehicle;
 struct PhysBody3D;
@@ -88,7 +89,7 @@ public:
 struct PhysTrack3D : public PhysBody3D
 {
 public:
-	PhysTrack3D(btRigidBody* body, btRaycastVehicle* vehicle, const TrackInfo& info);
+	PhysTrack3D(btRigidBody* body, Primitive* prim, const TrackInfo& info, int trackCount);
 	~PhysTrack3D();
 
 	void Render();
@@ -97,7 +98,7 @@ public:
 	//void Turn(float degrees);
 	float GetKmh() const;
 public:
-
+	int count;
 	TrackInfo info;
-	btRaycastVehicle* vehicle;
+	Primitive* vehicle;
 };
