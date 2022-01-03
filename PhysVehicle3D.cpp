@@ -102,7 +102,7 @@ TrackInfo::~TrackInfo()
 }
 
 // ----------------------------------------------------------------------------
-PhysTrack3D::PhysTrack3D(btRigidBody* body, Primitive* prim, const TrackInfo& info, int trackCount) : PhysBody3D(body), vehicle(prim), info(info), count(trackCount)
+PhysTrack3D::PhysTrack3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount) : PhysBody3D(body), vehicle(vehicle), info(info_w), info_t(info_t), count(trackCount)
 {
 }
 
@@ -112,20 +112,54 @@ PhysTrack3D::~PhysTrack3D()
 	delete vehicle;
 }
 
+void PhysTrack3D::ApplyEngineForce(float force)
+{
+	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	{
+		if (info.wheels[i].drive == true)
+		{
+			vehicle->applyEngineForce(force, i);
+		}
+	}
+}
+
+// ----------------------------------------------------------------------------
+void PhysTrack3D::Brake(float force)
+{
+	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	{
+		if (info.wheels[i].brake == true)
+		{
+			vehicle->setBrake(force, i);
+		}
+	}
+}
+
+// ----------------------------------------------------------------------------
+void PhysTrack3D::Turn(float degrees)
+{
+	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	{
+		if (info.wheels[i].steering == true)
+		{
+			vehicle->setSteeringValue(degrees, i);
+		}
+	}
+}
+
 // ----------------------------------------------------------------------------
 void PhysTrack3D::Render()
 {
-	/*Cylinder wheel;
+	Cylinder wheel;
 
 	wheel.color = Blue;
 
-	for (int i = 0; i < count; ++i)
+	for (int i = 0; i < vehicle->getNumWheels(); ++i)
 	{
 		wheel.radius = info.wheels[i].radius;
 		wheel.height = info.wheels[i].width;
 
-		vehicle->updateWheelTransform(i);
-		vehicle->
+		//vehicle->updateWheelTransform(i);
 		vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
 
 		wheel.Render();
@@ -142,7 +176,7 @@ void PhysTrack3D::Render()
 	chassis.transform.M[14] += offset.getZ();
 
 
-	chassis.Render();*/
+	chassis.Render();
 }
 
 

@@ -89,16 +89,18 @@ public:
 struct PhysTrack3D : public PhysBody3D
 {
 public:
-	PhysTrack3D(btRigidBody* body, Primitive* prim, const TrackInfo& info, int trackCount);
+	PhysTrack3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount);
 	~PhysTrack3D();
 
 	void Render();
-	//void ApplyEngineForce(float force);
-	//void Brake(float force);
-	//void Turn(float degrees);
+	void ApplyEngineForce(float force);
+	void Brake(float force);
+	void Turn(float degrees);
 	float GetKmh() const;
 public:
+
 	int count;
-	TrackInfo info;
-	Primitive* vehicle;
+	VehicleInfo info;
+	TrackInfo info_t;
+	btRaycastVehicle* vehicle;
 };
