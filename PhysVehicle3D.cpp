@@ -12,6 +12,7 @@ VehicleInfo::~VehicleInfo()
 // ----------------------------------------------------------------------------
 PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info) : PhysBody3D(body), vehicle(vehicle), info(info)
 {
+
 }
 
 // ----------------------------------------------------------------------------
@@ -102,8 +103,9 @@ TrackInfo::~TrackInfo()
 }
 
 // ----------------------------------------------------------------------------
-PhysTrack3D::PhysTrack3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount) : PhysBody3D(body), vehicle(vehicle), info(info_w), info_t(info_t), count(trackCount)
+PhysTrack3D::PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount) : PhysVehicle3D(body_c, vehicle, info_w), info_t(info_t), count(trackCount)
 {
+
 }
 
 // ----------------------------------------------------------------------------

@@ -154,7 +154,7 @@ bool ModulePlayer::Start()
 	
 
 	//track01 = App->physics->AddVehicle(car);
-	vehicle->SetPos(5, 2, 2);
+	//vehicle->SetPos(5, 2, 2);
 	/////////////////////////////////////////////////////////////////////
 	// Try01 properties --------------------------------------
 	

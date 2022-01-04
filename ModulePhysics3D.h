@@ -12,7 +12,9 @@
 class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
+struct PhysTrack3D;
 struct VehicleInfo;
+struct TrackInfo;
 
 class ModulePhysics3D : public Module
 {
@@ -34,6 +36,8 @@ public:
 	void AddBodyToWorld(btRigidBody* body);
 	
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
+
+	PhysTrack3D* AddVehicleTrack(const VehicleInfo& info, const TrackInfo& info_t);
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisS, const vec3& axisB, bool disable_collision = false);

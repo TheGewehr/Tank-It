@@ -86,10 +86,10 @@ public:
 	btRaycastVehicle* vehicle;
 };
 
-struct PhysTrack3D : public PhysBody3D
+struct PhysTrack3D : public PhysVehicle3D
 {
 public:
-	PhysTrack3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount);
+	PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount);
 	~PhysTrack3D();
 
 	void Render();
@@ -100,7 +100,7 @@ public:
 public:
 
 	int count;
-	VehicleInfo info;
+	VehicleInfo info_w;
 	TrackInfo info_t;
 	btRaycastVehicle* vehicle;
 };
