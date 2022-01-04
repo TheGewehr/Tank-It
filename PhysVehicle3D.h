@@ -28,6 +28,7 @@ struct Track
 	vec3 axis;
 	float height;
 	float width;
+	float depth;
 	float radius;
 };
 

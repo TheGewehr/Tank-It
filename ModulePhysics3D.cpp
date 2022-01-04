@@ -387,13 +387,27 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		vehicle->addWheel(conn, dir, axis, info.wheels[i].suspensionRestLength, info.wheels[i].radius, tuning, info.wheels[i].front);
 	}
 
-	
+	Cube* a = new Cube(info_t.wheels[0].width, info_t.wheels[0].depth, info_t.wheels[0].height);
+	Cube* b = nullptr;
+
+	for (int i = 0; i < 12; i++)
+	{
+		// NEEDS TO CHANGE a POSITION
+		if (b != nullptr)
+		{
+			App->physics->AddConstraintHinge(b->body, a->body,
+				vec3(info_t.wheels[i].width, 0, 0), vec3(-info_t.wheels[i].width, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+
+			App->physics->AddBody(*b, info_t.mass);
+		}
+		b = a;
+	}
 
 	// ---------------------
 	PhysTrack3D* pvehicle = new PhysTrack3D(body, vehicle, info, info_t, 12);
 	world->addVehicle(vehicle);
 	vehicles.add(pvehicle);
-
+	 
 	return pvehicle;
 }
 
