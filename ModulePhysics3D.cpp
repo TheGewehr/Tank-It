@@ -117,7 +117,7 @@ update_status ModulePhysics3D::Update(float dt)
 
 	if(debug == true)
 	{
-		world->debugDrawWorld();
+		//world->debugDrawWorld();
 
 		// Render vehicles
 		p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
@@ -387,11 +387,15 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		vehicle->addWheel(conn, dir, axis, info.wheels[i].suspensionRestLength, info.wheels[i].radius, tuning, info.wheels[i].front);
 	}
 
-	Cube* a = new Cube(info_t.wheels[0].width, info_t.wheels[0].depth, info_t.wheels[0].height);
+	Cube* a = nullptr;
 	Cube* b = nullptr;
 
 	for (int i = 0; i < 12; i++)
 	{
+		a = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
+		a->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
+		a->SetRotation(0, vec3(1, 1, 1));
+
 		// NEEDS TO CHANGE a POSITION
 		if (b != nullptr)
 		{
@@ -400,7 +404,10 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 
 			App->physics->AddBody(*b, info_t.mass);
 		}
-		b = a;
+
+		b = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
+		b->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
+		b->SetRotation(0, vec3(1, 1, 1));
 	}
 
 	// ---------------------

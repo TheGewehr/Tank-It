@@ -159,6 +159,7 @@ Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
 Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, sizeY, sizeZ)
 {
 	type = PrimitiveTypes::Primitive_Cube;
+	body.SetBodyCube(this, 1); //This is the error
 }
 
 Cube::Cube(const vec3& _size, float mass) : Primitive(), size(_size)

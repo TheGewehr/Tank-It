@@ -19,6 +19,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
+	TrackInfo track;
 	TrackInfo try01;
 
 	/////////////////////////////////////////////////////////////////////
@@ -414,9 +415,96 @@ bool ModulePlayer::Start()
 	car.wheels[17].brake = false;
 	car.wheels[17].steering = false;
 
-	
+	// TRACK INFO ------------------------------------
+	track.mass = 1.0f;
+	track.num_wheels = 12;
+	track.wheels = new Track[track.num_wheels];
 
-	vehicle = App->physics->AddVehicle(car);
+	// ---------------------------------------------------
+	track.wheels[0].axis = axis;
+	track.wheels[0].connection.Set(0, 0, 0);
+	track.wheels[0].depth = 1;
+	track.wheels[0].height = 1;
+	track.wheels[0].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[1].axis = axis;
+	track.wheels[1].connection.Set(0, 0, 0);
+	track.wheels[1].depth = 1;
+	track.wheels[1].height = 1;
+	track.wheels[1].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[2].axis = axis;
+	track.wheels[2].connection.Set(0, 0, 0);
+	track.wheels[2].depth = 1;
+	track.wheels[2].height = 1;
+	track.wheels[2].width = 1;
+
+	// --------------------------------------------------
+	track.wheels[3].axis = axis;
+	track.wheels[3].connection.Set(0, 0, 0);
+	track.wheels[3].depth = 1;
+	track.wheels[3].height = 1;
+	track.wheels[3].width = 1;
+
+	// --------------------------------------------------
+	track.wheels[4].axis = axis;
+	track.wheels[4].connection.Set(0, 0, 0);
+	track.wheels[4].depth = 1;
+	track.wheels[4].height = 1;
+	track.wheels[4].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[5].axis = axis;
+	track.wheels[5].connection.Set(0, 0, 0);
+	track.wheels[5].depth = 1;
+	track.wheels[5].height = 1;
+	track.wheels[5].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[6].axis = axis;
+	track.wheels[6].connection.Set(0, 0, 0);
+	track.wheels[6].depth = 1;
+	track.wheels[6].height = 1;
+	track.wheels[6].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[7].axis = axis;
+	track.wheels[7].connection.Set(0, 0, 0);
+	track.wheels[7].depth = 1;
+	track.wheels[7].height = 1;
+	track.wheels[7].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[8].axis = axis;
+	track.wheels[8].connection.Set(0, 0, 0);
+	track.wheels[8].depth = 1;
+	track.wheels[8].height = 1;
+	track.wheels[8].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[9].axis = axis;
+	track.wheels[9].connection.Set(0, 0, 0);
+	track.wheels[9].depth = 1;
+	track.wheels[9].height = 1;
+	track.wheels[9].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[10].axis = axis;
+	track.wheels[10].connection.Set(0, 0, 0);
+	track.wheels[10].depth = 1;
+	track.wheels[10].height = 1;
+	track.wheels[10].width = 1;
+
+	// ---------------------------------------------------
+	track.wheels[11].axis = axis;
+	track.wheels[11].connection.Set(0, 0, 0);
+	track.wheels[11].depth = 1;
+	track.wheels[11].height = 1;
+	track.wheels[11].width = 1;
+
+	vehicle = App->physics->AddVehicleTrack(car, track);
 	vehicle->SetPos(5, 2, 2);
 	
 
