@@ -72,7 +72,7 @@ bool ModulePhysics3D::Start()
 // ---------------------------------------------------------
 update_status ModulePhysics3D::PreUpdate(float dt)
 {
-	world->stepSimulation(dt, 15);
+	//world->stepSimulation(dt, 15);
 
 	int numManifolds = world->getDispatcher()->getNumManifolds();
 	for(int i = 0; i<numManifolds; i++)
@@ -284,14 +284,14 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.add(comShape);
 
-	btCollisionShape* colShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
-	shapes.add(colShape);
+	//btCollisionShape* colShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
+	//shapes.add(colShape);
 
 	btTransform trans;
 	trans.setIdentity();
 	trans.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
 
-	comShape->addChildShape(trans, colShape);
+	//comShape->addChildShape(trans, colShape);
 
 	btTransform startTransform;
 	startTransform.setIdentity();
@@ -319,7 +319,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btRaycastVehicle* vehicle = new btRaycastVehicle(tuning, body, vehicle_raycaster);
 
 	vehicle->setCoordinateSystem(0, 1, 2);
-
+/*
 	for(int i = 0; i < info.num_wheels; ++i)
 	{
 		btVector3 conn(info.wheels[i].connection.x, info.wheels[i].connection.y, info.wheels[i].connection.z);
@@ -329,7 +329,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 		vehicle->addWheel(conn, dir, axis, info.wheels[i].suspensionRestLength, info.wheels[i].radius, tuning, info.wheels[i].front);
 	}
 	// ---------------------
-
+*/
 	PhysVehicle3D* pvehicle = new PhysVehicle3D(body, vehicle, info);
 	world->addVehicle(vehicle);
 	vehicles.add(pvehicle);
@@ -339,6 +339,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 
 PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const TrackInfo& info_t)
 {
+	
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.add(comShape);
 
@@ -386,36 +387,51 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 
 		vehicle->addWheel(conn, dir, axis, info.wheels[i].suspensionRestLength, info.wheels[i].radius, tuning, info.wheels[i].front);
 	}
+	/*
+	btCollisionShape* a = nullptr;
+	btCollisionShape* b = nullptr;
+	Cube* d = nullptr;
+	Cube* c = nullptr;
+	PhysBody3D* aux_a = nullptr;
+	PhysBody3D* aux_b = nullptr;
 
-	Cube* a = nullptr;
-	Cube* b = nullptr;
 
 	for (int i = 0; i < 12; i++)
 	{
-		a = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
-		a->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
-		a->SetRotation(0, vec3(1, 1, 1));
+		a = new btBoxShape(btVector3(info_t.wheels[i].width * 0.5, info_t.wheels[i].depth * 0.5, info_t.wheels[i].height * 0.5));
+		
+		c = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
+		c->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
+		c->SetRotation(0, vec3(1, 1, 1));
+		
+		aux_a = new PhysBody3D();
+		aux_a->SetBody(a, c, 1);
 
 		// NEEDS TO CHANGE a POSITION
 		if (b != nullptr)
 		{
-			App->physics->AddConstraintHinge(b->body, a->body,
+			App->physics->AddConstraintHinge(*aux_a, *aux_b,
 				vec3(info_t.wheels[i].width, 0, 0), vec3(-info_t.wheels[i].width, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 
-			App->physics->AddBody(*b, info_t.mass);
 		}
+		
+		b = new btBoxShape(btVector3(info_t.wheels[i].width * 0.5, info_t.wheels[i].depth * 0.5, info_t.wheels[i].height * 0.5));
 
-		b = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
-		b->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
-		b->SetRotation(0, vec3(1, 1, 1));
+		d = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
+		d->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
+		d->SetRotation(0, vec3(1, 1, 1));
+
+		aux_b = new PhysBody3D();
+		aux_b->SetBody(a, c, 1);
 	}
-
+	*/
 	// ---------------------
 	PhysTrack3D* pvehicle = new PhysTrack3D(body, vehicle, info, info_t, 12);
 	world->addVehicle(vehicle);
 	vehicles.add(pvehicle);
 	 
 	return pvehicle;
+	
 }
 
 // ---------------------------------------------------------

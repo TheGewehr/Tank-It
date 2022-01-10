@@ -6,6 +6,12 @@
 #include "ModulePhysics3D.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
+PhysBody3D::PhysBody3D()
+{
+	parentPrimitive = NULL;
+	colShape = NULL;
+}
+
 // =================================================
 PhysBody3D::PhysBody3D(btRigidBody* body) : body(body)
 {}
@@ -83,7 +89,6 @@ void PhysBody3D::SetBody(btCollisionShape* shape, Primitive* parent, float mass)
 	body = new btRigidBody(rbInfo);
 
 	body->setUserPointer(this);
-
-	App->physics->AddBodyToWorld(body);
+	if (body != NULL) App->physics->AddBodyToWorld(body);
 	
 }
