@@ -72,7 +72,7 @@ bool ModulePhysics3D::Start()
 // ---------------------------------------------------------
 update_status ModulePhysics3D::PreUpdate(float dt)
 {
-	//world->stepSimulation(dt, 15);
+	world->stepSimulation(dt, 15);
 
 	int numManifolds = world->getDispatcher()->getNumManifolds();
 	for(int i = 0; i<numManifolds; i++)
@@ -127,13 +127,13 @@ update_status ModulePhysics3D::Update(float dt)
 			item = item->next;
 		}
 
-		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		/*if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
 			Sphere s(1);
 			s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			float force = 30.0f;
 			AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force));
-		}
+		}*/
 	}
 
 	return UPDATE_CONTINUE;
@@ -142,6 +142,8 @@ update_status ModulePhysics3D::Update(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::PostUpdate(float dt)
 {
+	p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -387,46 +389,47 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 
 		vehicle->addWheel(conn, dir, axis, info.wheels[i].suspensionRestLength, info.wheels[i].radius, tuning, info.wheels[i].front);
 	}
-	/*
+	
 	btCollisionShape* a = nullptr;
 	btCollisionShape* b = nullptr;
 	Cube* d = nullptr;
 	Cube* c = nullptr;
-	PhysBody3D* aux_a = nullptr;
-	PhysBody3D* aux_b = nullptr;
+	PhysBody3D* aux_a = new PhysBody3D[info_t.num_wheels];
 
 
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < info_t.num_wheels; i++)
 	{
-		a = new btBoxShape(btVector3(info_t.wheels[i].width * 0.5, info_t.wheels[i].depth * 0.5, info_t.wheels[i].height * 0.5));
+		
 		
 		c = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
 		c->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
 		c->SetRotation(0, vec3(1, 1, 1));
 		
-		aux_a = new PhysBody3D();
-		aux_a->SetBody(a, c, 1);
+		aux_a[i] = PhysBody3D();
+		aux_a[i].SetBodyCube(c, 1);
+		aux_a[i].parentPrimitive->color = Red;
+		
+		
+	}
+	
+	for (int i = 0; i < info_t.num_wheels - 1; i++)
+	{
 
-		// NEEDS TO CHANGE a POSITION
-		if (b != nullptr)
+		if (i == 0)
 		{
-			App->physics->AddConstraintHinge(*aux_a, *aux_b,
+			App->physics->AddConstraintHinge(aux_a[0], aux_a[11],
 				vec3(info_t.wheels[i].width, 0, 0), vec3(-info_t.wheels[i].width, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 
 		}
-		
-		b = new btBoxShape(btVector3(info_t.wheels[i].width * 0.5, info_t.wheels[i].depth * 0.5, info_t.wheels[i].height * 0.5));
-
-		d = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
-		d->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
-		d->SetRotation(0, vec3(1, 1, 1));
-
-		aux_b = new PhysBody3D();
-		aux_b->SetBody(a, c, 1);
+		else 
+		{
+			App->physics->AddConstraintHinge(aux_a[i], aux_a[i+1],
+				vec3(info_t.wheels[i].width, 0, 0), vec3(-info_t.wheels[i].width, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+		}
 	}
-	*/
+	
 	// ---------------------
-	PhysTrack3D* pvehicle = new PhysTrack3D(body, vehicle, info, info_t, 12);
+	PhysTrack3D* pvehicle = new PhysTrack3D(body, vehicle, info, info_t, info_t.num_wheels, aux_a);
 	world->addVehicle(vehicle);
 	vehicles.add(pvehicle);
 	 

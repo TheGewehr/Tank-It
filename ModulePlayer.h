@@ -22,7 +22,7 @@ public:
 
 public:
 
-	PhysVehicle3D* vehicle;
+	PhysTrack3D* vehicle;
 
 	PhysTrack3D* track01;
 	float turn;

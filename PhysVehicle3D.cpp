@@ -10,7 +10,7 @@ VehicleInfo::~VehicleInfo()
 }
 
 // ----------------------------------------------------------------------------
-PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info) : PhysBody3D(body), vehicle(vehicle), info(info)
+PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info) /* : PhysBody3D(body), vehicle(vehicle),*/ : info(info)
 {
 
 }
@@ -18,17 +18,17 @@ PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const
 // ----------------------------------------------------------------------------
 PhysVehicle3D::~PhysVehicle3D()
 {
-	delete vehicle;
+	//delete vehicle;
 }
 
 // ----------------------------------------------------------------------------
-void PhysVehicle3D::Render()
+void PhysVehicle3D::Render_v()
 {
 	Cylinder wheel;
 
 	wheel.color = Blue;
 
-	for(int i = 0; i < vehicle->getNumWheels(); ++i)
+	for(int i = 0; i < info.num_wheels; ++i)
 	{
 		wheel.radius = info.wheels[i].radius;
 		wheel.height = info.wheels[i].width;
@@ -40,6 +40,7 @@ void PhysVehicle3D::Render()
 	}
 
 	Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
+
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
 	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
 	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
@@ -54,9 +55,9 @@ void PhysVehicle3D::Render()
 }
 
 // ----------------------------------------------------------------------------
-void PhysVehicle3D::ApplyEngineForce(float force)
+void PhysVehicle3D::ApplyEngineForce_v(float force)
 {
-	for(int i = 0; i < vehicle->getNumWheels(); ++i)
+	for(int i = 0; i < info.num_wheels; ++i)
 	{
 		if(info.wheels[i].drive == true)
 		{
@@ -66,9 +67,9 @@ void PhysVehicle3D::ApplyEngineForce(float force)
 }
 
 // ----------------------------------------------------------------------------
-void PhysVehicle3D::Brake(float force)
+void PhysVehicle3D::Brake_v(float force)
 {
-	for(int i = 0; i < vehicle->getNumWheels(); ++i)
+	for(int i = 0; i < info.num_wheels; ++i)
 	{
 		if(info.wheels[i].brake == true)
 		{
@@ -78,9 +79,9 @@ void PhysVehicle3D::Brake(float force)
 }
 
 // ----------------------------------------------------------------------------
-void PhysVehicle3D::Turn(float degrees)
+void PhysVehicle3D::Turn_v(float degrees)
 {
-	for(int i = 0; i < vehicle->getNumWheels(); ++i)
+	for(int i = 0; i < info.num_wheels; ++i)
 	{
 		if(info.wheels[i].steering == true)
 		{
@@ -90,7 +91,7 @@ void PhysVehicle3D::Turn(float degrees)
 }
 
 // ----------------------------------------------------------------------------
-float PhysVehicle3D::GetKmh() const
+float PhysVehicle3D::GetKmh_v() const
 {
 	return vehicle->getCurrentSpeedKmHour();
 }
@@ -103,7 +104,7 @@ TrackInfo::~TrackInfo()
 }
 
 // ----------------------------------------------------------------------------
-PhysTrack3D::PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount) : PhysVehicle3D(body_c, vehicle, info_w), info_t(info_t), count(trackCount)
+PhysTrack3D::PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_wh, const TrackInfo& info_t, int trackCount, PhysBody3D* track_t) : PhysVehicle3D(body_c, vehicle, info_wh), vehicle_t(vehicle),info_w(info_wh), info_t(info_t), count(trackCount), track(track_t)
 {
 
 }
@@ -111,16 +112,17 @@ PhysTrack3D::PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const V
 // ----------------------------------------------------------------------------
 PhysTrack3D::~PhysTrack3D()
 {
-	delete vehicle;
+	
+	delete vehicle_t;
 }
 
 void PhysTrack3D::ApplyEngineForce(float force)
 {
-	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	for (int i = 0; i < info_w.num_wheels; ++i)
 	{
-		if (info.wheels[i].drive == true)
+		if (info_w.wheels[i].drive == true)
 		{
-			vehicle->applyEngineForce(force, i);
+			vehicle_t->applyEngineForce(force, i);
 		}
 	}
 }
@@ -128,11 +130,11 @@ void PhysTrack3D::ApplyEngineForce(float force)
 // ----------------------------------------------------------------------------
 void PhysTrack3D::Brake(float force)
 {
-	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	for (int i = 0; i < info_w.num_wheels; ++i)
 	{
-		if (info.wheels[i].brake == true)
+		if (info_w.wheels[i].brake == true)
 		{
-			vehicle->setBrake(force, i);
+			vehicle_t->setBrake(force, i);
 		}
 	}
 }
@@ -140,11 +142,11 @@ void PhysTrack3D::Brake(float force)
 // ----------------------------------------------------------------------------
 void PhysTrack3D::Turn(float degrees)
 {
-	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	for (int i = 0; i < info_w.num_wheels; ++i)
 	{
-		if (info.wheels[i].steering == true)
+		if (info_w.wheels[i].steering == true)
 		{
-			vehicle->setSteeringValue(degrees, i);
+			vehicle_t->setSteeringValue(degrees, i);
 		}
 	}
 }
@@ -156,21 +158,38 @@ void PhysTrack3D::Render()
 
 	wheel.color = Blue;
 
-	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	for (int i = 0; i < info_w.num_wheels; ++i)
 	{
-		wheel.radius = info.wheels[i].radius;
-		wheel.height = info.wheels[i].width;
+		wheel.radius = info_w.wheels[i].radius;
+		wheel.height = info_w.wheels[i].width;
 
 		//vehicle->updateWheelTransform(i);
-		vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
+		vehicle_t->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
 
 		wheel.Render();
 	}
 
-	Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
-	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
-	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
-	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
+	
+	btTransform trans;
+
+	for (int i = 0; i < info_t.num_wheels; i++)
+	{
+		trans = track[i].body->getWorldTransform();
+		trans.setOrigin(track[i].body->getCenterOfMassPosition());
+		track[i].body->setWorldTransform(trans);
+		
+		track[i].parentPrimitive->SetPos(track[i].body->getCenterOfMassPosition().x(), track[i].body->getCenterOfMassPosition().y(), track[i].body->getCenterOfMassPosition().z());
+		track[i].parentPrimitive->SetRotation(track[i].body->getAngularDamping(), vec3(track[i].body->getAngularFactor().x(), track[i].body->getAngularFactor().y(), track[i].body->getAngularFactor().z()));
+		track[i].parentPrimitive->Render();
+		
+
+	}
+
+
+	Cube chassis(info_w.chassis_size.x, info_w.chassis_size.y, info_w.chassis_size.z);
+	vehicle_t->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
+	btQuaternion q = vehicle_t->getChassisWorldTransform().getRotation();
+	btVector3 offset(info_w.chassis_offset.x, info_w.chassis_offset.y, info_w.chassis_offset.z);
 	offset = offset.rotate(q.getAxis(), q.getAngle());
 
 	chassis.transform.M[12] += offset.getX();

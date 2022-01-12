@@ -73,13 +73,14 @@ struct PhysVehicle3D : public PhysBody3D
 public:
 
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info);
-	~PhysVehicle3D();
+	virtual ~PhysVehicle3D();
 
-	void Render();
-	void ApplyEngineForce(float force);
-	void Brake(float force);
-	void Turn(float degrees);
-	float GetKmh() const;
+	void Render_v();
+	virtual void Render() {};
+	void ApplyEngineForce_v(float force);
+	void Brake_v(float force);
+	void Turn_v(float degrees);
+	float GetKmh_v() const;
 
 public:
 
@@ -90,7 +91,7 @@ public:
 struct PhysTrack3D : public PhysVehicle3D
 {
 public:
-	PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount);
+	PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount, PhysBody3D* track_t);
 	~PhysTrack3D();
 
 	void Render();
@@ -103,5 +104,6 @@ public:
 	int count;
 	VehicleInfo info_w;
 	TrackInfo info_t;
-	btRaycastVehicle* vehicle;
+	btRaycastVehicle* vehicle_t;
+	PhysBody3D* track;
 };
