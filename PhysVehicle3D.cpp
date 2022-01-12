@@ -178,7 +178,11 @@ void PhysTrack3D::Render()
 		trans.setOrigin(track[i].body->getCenterOfMassPosition());
 		track[i].body->setWorldTransform(trans);
 
-		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
+		//btVector3 U =  track[i].body->getAngularFactor().x();
+		//track[i].parentPrimitive->transform.rotate(trans.getOpenGLMatrix(&track[i].parentPrimitive->transform));
+		//info_t.chassis_offset
+
+		track[i].parentPrimitive->SetRotation(trans.getRotation().y(), vec3(1, 1, 1)); // Euler Angles
 		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
 		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
 		
