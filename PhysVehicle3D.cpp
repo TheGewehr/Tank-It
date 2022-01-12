@@ -177,11 +177,18 @@ void PhysTrack3D::Render()
 		trans = track[i].body->getWorldTransform();
 		trans.setOrigin(track[i].body->getCenterOfMassPosition());
 		track[i].body->setWorldTransform(trans);
+
+		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
+		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
+		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
 		
 		track[i].parentPrimitive->SetPos(track[i].body->getCenterOfMassPosition().x(), track[i].body->getCenterOfMassPosition().y(), track[i].body->getCenterOfMassPosition().z());
-		track[i].parentPrimitive->SetRotation(track[i].body->getAngularDamping(), vec3(track[i].body->getAngularFactor().x(), track[i].body->getAngularFactor().y(), track[i].body->getAngularFactor().z()));
-		track[i].parentPrimitive->Render();
 		
+		track[i].parentPrimitive->Render();
+
+		
+		
+		//track[i].parentPrimitive->SetRotation(track[i].body->getAngularDamping(), vec3(track[i].body->getAngularFactor().x(), track[i].body->getAngularFactor().y(), track[i].body->getAngularFactor().z()));
 
 	}
 
