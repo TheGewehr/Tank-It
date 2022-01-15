@@ -202,7 +202,7 @@ void PhysTrack3D::Render()
 			btQuaternion q = trans.getRotation();
 			
 			track[i].parentPrimitive->SetPos(trans.getOrigin().x(), trans.getOrigin().y(), trans.getOrigin().z());
-			track[i].SetTransform(trans.getRotation());
+			//track[i].SetTransform(trans.getRotation());
 			
 			
 			//track[i].parentPrimitive->body.
