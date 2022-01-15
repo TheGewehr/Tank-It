@@ -417,13 +417,15 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		if (i == 0)
 		{
 			App->physics->AddConstraintHinge(aux_a[0], aux_a[11],
-				vec3(info_t.wheels[i].width, 0, 0), vec3(-info_t.wheels[i].width, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+				vec3(-info_t.wheels[i].width*0.5f , 0, 0), vec3(info_t.wheels[i].width * 0.5f , 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+			//App->physics->AddConstraintHinge(aux_a[11], aux_a[10],
+			//	vec3(info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(-info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 
 		}
 		else 
 		{
-			App->physics->AddConstraintHinge(aux_a[i], aux_a[i+1],
-				vec3(info_t.wheels[i].width, 0, 0), vec3(-info_t.wheels[i].width, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+			App->physics->AddConstraintHinge(aux_a[i-1], aux_a[i],
+				vec3(info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(-info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 		}
 	}
 	
