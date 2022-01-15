@@ -560,11 +560,13 @@ update_status ModulePlayer::Update(float dt)
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
 
+
 	for (int i = 0; i < primitives.count(); i++)
 	{
 		Primitive* dummy;
 		
 		primitives.at(i, dummy);
+		dummy->body.GetTransform(&dummy->transform);
 		dummy->Render();
 	}
 

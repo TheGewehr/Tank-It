@@ -24,6 +24,7 @@ ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer();
+
 }
 
 // Destructor
@@ -117,7 +118,7 @@ update_status ModulePhysics3D::Update(float dt)
 
 	if(debug == true)
 	{
-		//world->debugDrawWorld();
+		world->debugDrawWorld();
 
 		// Render vehicles
 		p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
@@ -390,10 +391,9 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		vehicle->addWheel(conn, dir, axis, info.wheels[i].suspensionRestLength, info.wheels[i].radius, tuning, info.wheels[i].front);
 	}
 	
-	btCollisionShape* a = nullptr;
-	btCollisionShape* b = nullptr;
 	Cube* d = nullptr;
 	Cube* c = nullptr;
+
 	PhysBody3D* aux_a = new PhysBody3D[info_t.num_wheels];
 
 
@@ -408,7 +408,6 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		aux_a[i] = PhysBody3D();
 		aux_a[i].SetBodyCube(c, 1);
 		aux_a[i].parentPrimitive->color = Red;
-		
 		
 	}
 	

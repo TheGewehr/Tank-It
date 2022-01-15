@@ -14,18 +14,36 @@ PhysBody3D::PhysBody3D()
 
 // =================================================
 PhysBody3D::PhysBody3D(btRigidBody* body) : body(body)
-{}
+{
+
+}
 
 // ---------------------------------------------------------
 PhysBody3D::~PhysBody3D()
 {
+	if (HasBody() == true)
+	{
+		// there might be an error here
+		delete body;
+		delete colShape;
+		delete motionState;
+	}
+
 	delete body;
 }
 
+bool PhysBody3D::HasBody() const
+{
+	return body != nullptr;
+}
 // ---------------------------------------------------------
 void PhysBody3D::Push(float x, float y, float z)
 {
-	body->applyCentralImpulse(btVector3(x, y, z));
+	if (HasBody())
+	{
+		body->activate();
+		body->applyCentralForce(btVector3(x, y, z));
+	}
 }
 
 // ---------------------------------------------------------
@@ -35,25 +53,31 @@ void PhysBody3D::GetTransform(float* matrix) const
 	{
 		body->getWorldTransform().getOpenGLMatrix(matrix);
 	}
+	
 }
 
 // ---------------------------------------------------------
 void PhysBody3D::SetTransform(const float* matrix) const
 {
-	if(body != NULL && matrix != NULL)
-	{
-		btTransform t;
-		t.setFromOpenGLMatrix(matrix);
-		body->setWorldTransform(t);
-	}
+	if (HasBody() == false)
+		return;
+
+	btTransform trans;
+	trans.setFromOpenGLMatrix(matrix);
+	body->setWorldTransform(trans);
+	body->activate();
 }
 
 // ---------------------------------------------------------
 void PhysBody3D::SetPos(float x, float y, float z)
 {
-	btTransform t = body->getWorldTransform();
-	t.setOrigin(btVector3(x, y, z));
-	body->setWorldTransform(t);
+	if (HasBody() == false)
+		return;
+
+	btTransform trans = body->getWorldTransform();
+	trans.setOrigin(btVector3(x, y, z));
+	body->setWorldTransform(trans);
+	body->activate();
 }
 
 void PhysBody3D::SetBodySphere(Sphere* primitive, float mass)

@@ -21,54 +21,6 @@ PrimitiveTypes Primitive::GetType() const
 // ------------------------------------------------------------
 void Primitive::Render() const
 {
-	
-
-	//mode->
-	//
-	//	wheel.radius = info.wheels[i].radius;
-	//	wheel.height = info.wheels[i].width;
-	//
-	//	vehicle->updateWheelTransform(i);
-	//	vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
-	//
-	//	wheel.Render();
-	
-		// Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
-		// vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
-		// btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
-		// btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
-		// offset = offset.rotate(q.getAxis(), q.getAngle());
-
-		//Primitive_Point,
-		//	Primitive_Line,
-		//	Primitive_Plane,
-		//	Primitive_Cube,
-		//	Primitive_Sphere,
-		//	Primitive_Cylinder
-
-		//for (int i = 0; i < App->player->primitives.count(); ++i)
-		//{
-		//	Primitive *yeet = new Primitive();
-		//
-		//	
-		//
-		//	App->player->primitives.at(i, yeet);
-		//
-		//	if (yeet->GetType() == Primitive_Cube)
-		//	{
-		//		Cube* mode = new Cube(App->player->size);
-		//		mode->color = Red;
-		//
-		//		mode->body.body->getCenterOfMassTransform();
-		//		//mode->transform = mode->body.body->getCenterOfMassTransform();
-		//		//
-		//		//vehicle->updateWheelTransform(i);
-		//		//vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
-		//
-		//		mode->Render();
-		//	}
-		//}
-
 
 	glPushMatrix();
 	glMultMatrixf(transform.M);
@@ -105,10 +57,9 @@ void Primitive::Render() const
 		glLineWidth(1.0f);
 	}
 
-
 	glColor3f(color.r, color.g, color.b);
 
-	if (wire || App->renderPrimitives == false)
+	if (wire)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -124,7 +75,7 @@ void Primitive::InnerRender() const
 	glPointSize(5.0f);
 
 	glBegin(GL_POINTS);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
 	glVertex3f(0.0f, 0.0f, 0.0f);
 
 	glEnd();
@@ -136,18 +87,21 @@ void Primitive::InnerRender() const
 void Primitive::SetPos(float x, float y, float z)
 {
 	transform.translate(x, y, z);
+	body.SetTransform(&transform);
 }
 
 // ------------------------------------------------------------
 void Primitive::SetRotation(float angle, const vec3 &u)
 {
 	transform.rotate(angle, u);
+	body.SetTransform(&transform);
 }
 
 // ------------------------------------------------------------
 void Primitive::Scale(float x, float y, float z)
 {
 	transform.scale(x, y, z);
+	body.SetTransform(&transform);
 }
 
 // CUBE ============================================

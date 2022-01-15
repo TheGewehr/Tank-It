@@ -1,7 +1,9 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
+#include "ModulePlayer.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
-
+#include "Application.h"
+#include <cmath>
 // ----------------------------------------------------------------------------
 VehicleInfo::~VehicleInfo()
 {
@@ -106,7 +108,11 @@ TrackInfo::~TrackInfo()
 // ----------------------------------------------------------------------------
 PhysTrack3D::PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_wh, const TrackInfo& info_t, int trackCount, PhysBody3D* track_t) : PhysVehicle3D(body_c, vehicle, info_wh), vehicle_t(vehicle),info_w(info_wh), info_t(info_t), count(trackCount), track(track_t)
 {
-
+	for (int i = 0; i < trackCount; i++)
+	{
+		App->player->primitives.add(track[i].parentPrimitive);
+		
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -174,25 +180,35 @@ void PhysTrack3D::Render()
 
 	for (int i = 0; i < info_t.num_wheels; i++)
 	{
-		trans = track[i].body->getWorldTransform();
-		trans.setOrigin(track[i].body->getCenterOfMassPosition());
-		track[i].body->setWorldTransform(trans);
-
-		//btVector3 U =  track[i].body->getAngularFactor().x();
-		//track[i].parentPrimitive->transform.rotate(trans.getOpenGLMatrix(&track[i].parentPrimitive->transform));
-		//info_t.chassis_offset
-
-		track[i].parentPrimitive->SetRotation(trans.getRotation().y(), vec3(1, 1, 1)); // Euler Angles
+		//trans = track[i].body->getWorldTransform();
+		//trans.setOrigin(track[i].body->getCenterOfMassPosition());
+		//track[i].body->setWorldTransform(trans);
+		//track[i].body->get
+		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
 		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
 		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
 		
-		track[i].parentPrimitive->SetPos(track[i].body->getCenterOfMassPosition().x(), track[i].body->getCenterOfMassPosition().y(), track[i].body->getCenterOfMassPosition().z());
+		//track[i].parentPrimitive->SetPos(track[i].body->getCenterOfMassPosition().x(), track[i].body->getCenterOfMassPosition().y(), track[i].body->getCenterOfMassPosition().z());
 		
-		track[i].parentPrimitive->Render();
+		//track[i].parentPrimitive->Render();
 
 		
 		
 		//track[i].parentPrimitive->SetRotation(track[i].body->getAngularDamping(), vec3(track[i].body->getAngularFactor().x(), track[i].body->getAngularFactor().y(), track[i].body->getAngularFactor().z()));
+		for (uint n = 0; n < count; n++) {
+
+			trans = track[i].body->getWorldTransform();
+			
+			btQuaternion q = trans.getRotation();
+			
+			track[i].parentPrimitive->SetPos(trans.getOrigin().x(), trans.getOrigin().y(), trans.getOrigin().z());
+			track[i].SetTransform(trans.getRotation());
+			
+			
+			//track[i].parentPrimitive->body.
+			track[i].parentPrimitive->Render();
+		}
+
 
 	}
 
