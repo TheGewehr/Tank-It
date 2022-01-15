@@ -402,8 +402,8 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		
 		
 		c = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
-		c->SetPos(3, 1.f + 0.5 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
-		c->SetRotation(0, vec3(1, 1, 1));
+		c->SetPos(1.5, 0.8 * cos(2 * 3.14f * i / info_t.num_wheels), 2 * sin(2 * 3.14f * i / info_t.num_wheels));
+		c->SetRotation( 90* sin(2*3.14*i / info_t.num_wheels), vec3(1, 0, 0));
 		
 		aux_a[i] = PhysBody3D();
 		aux_a[i].SetBodyCube(c, 1);
@@ -416,10 +416,10 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 
 		if (i == 0)
 		{
-			App->physics->AddConstraintHinge(aux_a[0], aux_a[11],
-				vec3(-info_t.wheels[i].width*0.5f , 0, 0), vec3(info_t.wheels[i].width * 0.5f , 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
-			//App->physics->AddConstraintHinge(aux_a[11], aux_a[10],
-			//	vec3(info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(-info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+			App->physics->AddConstraintHinge(aux_a[0], aux_a[18],
+				vec3(-info_t.wheels[i].width*0.5f, 0, 0), vec3(info_t.wheels[i].width * 0.5f , 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
+			App->physics->AddConstraintHinge(aux_a[18], aux_a[17],
+				vec3(info_t.wheels[i].width * 0.5f + 0.015f, 0, 0), vec3(-info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 
 		}
 		else 
@@ -427,7 +427,9 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 			App->physics->AddConstraintHinge(aux_a[i-1], aux_a[i],
 				vec3(info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(-info_t.wheels[i].width * 0.5f + 0.15f, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 		}
+		
 	}
+	
 	
 	// ---------------------
 	PhysTrack3D* pvehicle = new PhysTrack3D(body, vehicle, info, info_t, info_t.num_wheels, aux_a);

@@ -174,43 +174,18 @@ void PhysTrack3D::Render()
 
 		wheel.Render();
 	}
+	
+		
+	for (uint n = 0; n < count; n++) 
+	{
+
+		track[n].GetTransform(&track[n].parentPrimitive->transform);
+
+		track[n].parentPrimitive->Render();
+	}
+
 
 	
-	btTransform trans;
-
-	for (int i = 0; i < info_t.num_wheels; i++)
-	{
-		//trans = track[i].body->getWorldTransform();
-		//trans.setOrigin(track[i].body->getCenterOfMassPosition());
-		//track[i].body->setWorldTransform(trans);
-		//track[i].body->get
-		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
-		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
-		//track[i].parentPrimitive->SetRotation(30, vec3(1, 0, 0)); // Euler Angles
-		
-		//track[i].parentPrimitive->SetPos(track[i].body->getCenterOfMassPosition().x(), track[i].body->getCenterOfMassPosition().y(), track[i].body->getCenterOfMassPosition().z());
-		
-		//track[i].parentPrimitive->Render();
-
-		
-		
-		//track[i].parentPrimitive->SetRotation(track[i].body->getAngularDamping(), vec3(track[i].body->getAngularFactor().x(), track[i].body->getAngularFactor().y(), track[i].body->getAngularFactor().z()));
-		for (uint n = 0; n < count; n++) {
-
-			trans = track[i].body->getWorldTransform();
-			
-			btQuaternion q = trans.getRotation();
-			
-			track[i].parentPrimitive->SetPos(trans.getOrigin().x(), trans.getOrigin().y(), trans.getOrigin().z());
-			//track[i].SetTransform(trans.getRotation());
-			
-			
-			//track[i].parentPrimitive->body.
-			track[i].parentPrimitive->Render();
-		}
-
-
-	}
 
 
 	Cube chassis(info_w.chassis_size.x, info_w.chassis_size.y, info_w.chassis_size.z);
