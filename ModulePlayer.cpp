@@ -623,6 +623,11 @@ update_status ModulePlayer::Update(float dt)
 	//	vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERAOFFSET_Z);
 	//App->camera->LookAt(vehicle->GetPosition());
 
+	App->camera->Position.Set(vehicle->GetPosition().x ,
+		vehicle->GetPosition().y + CAMERAOFFSET_Y,
+		vehicle->GetPosition().z - 10);
+	App->camera->LookAt(vehicle->GetPosition());
+
 	
 	return UPDATE_CONTINUE;
 }
