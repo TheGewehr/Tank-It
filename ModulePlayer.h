@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "p2Point.h"
 
+
 struct PhysVehicle3D;
 struct PhysTrack3D;
 #define MAX_ACCELERATION 1000.0f
@@ -31,4 +32,6 @@ public:
 	vec3 size;
 
 	p2List<Primitive*>primitives;
+
+	
 };

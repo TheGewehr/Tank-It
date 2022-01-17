@@ -7,7 +7,7 @@
 class btRaycastVehicle;
 struct PhysBody3D;
 
-struct Wheel
+typedef struct Wheel
 {
 	vec3 connection; // origin of the ray. Must come from within the chassis
 	vec3 direction; 
@@ -21,7 +21,7 @@ struct Wheel
 	bool steering; // does this wheel turns ?
 };
 
-struct Track
+typedef struct Track
 {
 	vec3 connection;
 	vec3 direction;
@@ -32,7 +32,7 @@ struct Track
 	float radius;
 };
 
-struct VehicleInfo
+typedef struct VehicleInfo
 {
 	~VehicleInfo();
 	
@@ -50,7 +50,7 @@ struct VehicleInfo
 	int num_wheels;
 };
 
-struct TrackInfo
+typedef struct TrackInfo
 {
 	~TrackInfo();
 
@@ -68,7 +68,7 @@ struct TrackInfo
 	int num_wheels;
 };
 
-struct PhysVehicle3D : public PhysBody3D
+typedef struct PhysVehicle3D : public PhysBody3D
 {
 public:
 
@@ -81,6 +81,8 @@ public:
 	void Brake_v(float force);
 	void Turn_v(float degrees);
 	float GetKmh_v() const;
+	vec3 GetForwardVector() const;
+	vec3 GetUpperVector() const;
 
 public:
 
@@ -88,7 +90,7 @@ public:
 	btRaycastVehicle* vehicle;
 };
 
-struct PhysTrack3D : public PhysVehicle3D
+typedef struct PhysTrack3D : public PhysVehicle3D
 {
 public:
 	PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_w, const TrackInfo& info_t, int trackCount, PhysBody3D* track_t);
@@ -99,6 +101,9 @@ public:
 	void Brake(float force);
 	void Turn(float degrees);
 	float GetKmh() const;
+	vec3 GetForwardVector() const;
+	vec3 GetUpperVector() const;
+
 public:
 
 	int count;

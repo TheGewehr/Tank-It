@@ -5,6 +5,10 @@
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
 
+#define CAMERAOFFSET_X 10
+#define CAMERAOFFSET_Y 5
+#define CAMERAOFFSET_Z 10
+
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
@@ -158,7 +162,6 @@ bool ModulePlayer::Start()
 	//vehicle->SetPos(5, 2, 2);
 	/////////////////////////////////////////////////////////////////////
 	// Try01 properties --------------------------------------
-	
 	
 
 	
@@ -545,6 +548,7 @@ bool ModulePlayer::Start()
 	track.wheels[18].depth = 0.1f;
 	track.wheels[18].height = 0.5f;
 	track.wheels[18].width = 0.5f;
+
 	vehicle = App->physics->AddVehicleTrack(car, track);
 	
 
@@ -596,7 +600,7 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
-
+	
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
@@ -611,6 +615,12 @@ update_status ModulePlayer::Update(float dt)
 		dummy->Render();
 	}
 
+	// vehicle has no body!?!?!?!?
+
+	//App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetForwardVector().x * CAMERAOFFSET_X,
+	//	vehicle->GetPosition().y + CAMERAOFFSET_Y,
+	//	vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERAOFFSET_Z);
+	//App->camera->LookAt(vehicle->GetPosition());
 
 	
 	return UPDATE_CONTINUE;

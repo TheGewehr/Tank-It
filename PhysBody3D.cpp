@@ -116,3 +116,9 @@ void PhysBody3D::SetBody(btCollisionShape* shape, Primitive* parent, float mass)
 	if (body != NULL) App->physics->AddBodyToWorld(body);
 	
 }
+
+vec3 PhysBody3D::GetPosition() const
+{
+	btVector3 vector = body->getWorldTransform().getOrigin();
+	return vec3(vector.getX(), vector.getY(), vector.getZ());
+}

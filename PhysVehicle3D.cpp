@@ -208,3 +208,27 @@ float PhysTrack3D::GetKmh() const
 {
 	return float();
 }
+
+vec3 PhysVehicle3D::GetForwardVector() const
+{
+	btVector3 f_vector = vehicle->getForwardVector();
+	return vec3(f_vector.getX(), f_vector.getY(), f_vector.getZ());
+}
+
+vec3 PhysVehicle3D::GetUpperVector() const
+{
+	btVector3 u_vector = vehicle->getUpVector();
+	return vec3(u_vector.getX(), u_vector.getY(), u_vector.getZ());
+}
+
+vec3 PhysTrack3D::GetForwardVector() const
+{
+	btVector3 f_vector = vehicle->getForwardVector();
+	return vec3(f_vector.getX(), f_vector.getY(), f_vector.getZ());
+}
+
+vec3 PhysTrack3D::GetUpperVector() const
+{
+	btVector3 u_vector = vehicle->getUpVector();
+	return vec3(u_vector.getX(), u_vector.getY(), u_vector.getZ());
+}

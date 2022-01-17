@@ -32,6 +32,7 @@ public:
 	bool HasBody() const;
 	void Push(float x, float y, float z);
 	void GetTransform(float* matrix) const;
+	vec3 GetPosition() const;
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
 
