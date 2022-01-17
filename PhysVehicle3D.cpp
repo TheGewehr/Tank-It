@@ -12,7 +12,7 @@ VehicleInfo::~VehicleInfo()
 }
 
 // ----------------------------------------------------------------------------
-PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info) /* : PhysBody3D(body), vehicle(vehicle),*/ : info(info)
+PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info) : PhysBody3D(body), /*vehicle(vehicle), */ info(info)
 {
 
 }
@@ -108,6 +108,7 @@ TrackInfo::~TrackInfo()
 // ----------------------------------------------------------------------------
 PhysTrack3D::PhysTrack3D(btRigidBody* body_c, btRaycastVehicle* vehicle, const VehicleInfo& info_wh, const TrackInfo& info_t, int trackCount, PhysBody3D* track_t) : PhysVehicle3D(body_c, vehicle, info_wh), vehicle_t(vehicle),info_w(info_wh), info_t(info_t), count(trackCount), track(track_t)
 {
+
 	for (int i = 0; i < trackCount; i++)
 	{
 		App->player->primitives.add(track[i].parentPrimitive);
@@ -156,6 +157,8 @@ void PhysTrack3D::Turn(float degrees)
 		}
 	}
 }
+
+
 
 // ----------------------------------------------------------------------------
 void PhysTrack3D::Render()

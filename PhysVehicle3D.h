@@ -83,6 +83,7 @@ public:
 	float GetKmh_v() const;
 	vec3 GetForwardVector() const;
 	vec3 GetUpperVector() const;
+	
 
 public:
 
@@ -100,6 +101,7 @@ public:
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
+	
 	float GetKmh() const;
 	vec3 GetForwardVector() const;
 	vec3 GetUpperVector() const;

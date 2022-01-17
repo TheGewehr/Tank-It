@@ -18,6 +18,7 @@ ModulePlayer::~ModulePlayer()
 {}
 
 // Load assets
+
 bool ModulePlayer::Start()
 {
 	LOG("Loading player");
@@ -40,7 +41,7 @@ bool ModulePlayer::Start()
 	float ZPos = 20.0f;
 	float Size = StartingSize;
 
-	size = { 0.5f, 0.1f, 0.5f };
+	vec3 size = { 0.5f, 0.1f, 0.5f };
 
 	float section = SnakeLength * 0.25;
 
