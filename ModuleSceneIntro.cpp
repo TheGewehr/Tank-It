@@ -31,6 +31,7 @@ bool ModuleSceneIntro::Start()
 	c->SetRotation(10, vec3(0.0f, 1.0f, 0.0f));
 	PhysBody3D phys = *App->physics->AddBody(*c, 0.0f);
 	phys.SetBodyCube(c, 0.0f);
+	phys.body->setUserPointer(&phys);
 	//map.PushBack(c);
 	world.add(phys);
 	//PhysBody3D i = world->getFirst();

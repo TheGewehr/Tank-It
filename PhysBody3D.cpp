@@ -24,12 +24,12 @@ PhysBody3D::~PhysBody3D()
 	if (HasBody() == true)
 	{
 		// there might be an error here
-		delete body;
-		delete colShape;
-		delete motionState;
+		//delete body;
+		//delete colShape;
+		//delete motionState;
 	}
 	
-		delete body;
+		//delete body;
 	
 
 	
