@@ -28,8 +28,11 @@ PhysBody3D::~PhysBody3D()
 		delete colShape;
 		delete motionState;
 	}
+	
+		delete body;
+	
 
-	delete body;
+	
 }
 
 bool PhysBody3D::HasBody() const
