@@ -226,7 +226,7 @@ vec3 PhysVehicle3D::GetUpperVector() const
 
 vec3 PhysTrack3D::GetForwardVector() const
 {
-	btVector3 f_vector = vehicle->getForwardVector();
+	btVector3 f_vector = vehicle_t->getForwardVector();
 	return vec3(f_vector.getX(), f_vector.getY(), f_vector.getZ());
 }
 

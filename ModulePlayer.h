@@ -33,5 +33,13 @@ public:
 
 	p2List<Primitive*>primitives;
 
-	
+	//vec3 cameraUpdaterPosition;
+	//
+	//vec3 initial;
+	//vec3 diferential;
+	//
+	//int counter=0;
+	//float lol = 0;
+	//
+	//float camDistance;
 };

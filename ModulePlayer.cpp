@@ -6,7 +6,7 @@
 #include "PhysBody3D.h"
 
 #define CAMERAOFFSET_X 10
-#define CAMERAOFFSET_Y 5
+#define CAMERAOFFSET_Y 4
 #define CAMERAOFFSET_Z 10
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
@@ -552,7 +552,9 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicleTrack(car, track);
 	
-
+	//counter = 0;
+	//camDistance = 2;
+	
 
 	// Hacer que spawnee la chain ya en circulo para que aterrice en el cauce
 	
@@ -595,6 +597,18 @@ update_status ModulePlayer::Update(float dt)
 		brake = BRAKE_POWER;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		if (App->camera->cameraFree == false)
+		{
+			App->camera->cameraFree = true;
+		}
+		else
+		{
+			App->camera->cameraFree = false;
+		}
+	}
+
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
@@ -614,20 +628,73 @@ update_status ModulePlayer::Update(float dt)
 		primitives.at(i, dummy);
 		dummy->body.GetTransform(&dummy->transform);
 		dummy->Render();
+	}		
+
+	if (App->camera->cameraFree == false)
+	{
+		
+		/* Trying to implement rotation of the camera with a drag
+		
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		{
+			
+			int dx = -App->input->GetMouseXMotion();
+			int dy = -App->input->GetMouseYMotion();
+
+			float Sensitivity = 0.25f;
+
+			App->camera->Position -= App->camera->Reference;
+
+			if (dx != 0)
+			{
+				float DeltaX = (float)dx * Sensitivity;
+
+				App->camera->X = rotate(App->camera->X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+				App->camera->Y = rotate(App->camera->Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+				App->camera->Z = rotate(App->camera->Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			}
+
+			if (dy != 0)
+			{
+				float DeltaY = (float)dy * Sensitivity;
+
+				App->camera->Y = rotate(App->camera->Y, DeltaY, App->camera->X);
+				App->camera->Z = rotate(App->camera->Z, DeltaY, App->camera->X);
+
+				if (App->camera->Y.y < 0.0f)
+				{
+					App->camera->Z = vec3(0.0f, App->camera->Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+					App->camera->Y = cross(App->camera->Z, App->camera->X);
+				}
+			}			
+			
+			cameraUpdaterPosition = App->camera->Z + CAMERAOFFSET_Z;
+			App->camera->Position = vehicle->GetPosition() + cameraUpdaterPosition;
+			
+
+			App->camera->LookAt(vec3(vehicle->GetPosition().x, vehicle->GetPosition().y + 1, vehicle->GetPosition().z));
+		}
+		else
+		{
+			
+
+			cameraUpdaterPosition =  App->camera->Z + CAMERAOFFSET_Z;
+			App->camera->Position = vehicle->GetPosition() + cameraUpdaterPosition;
+			App->camera->LookAt(vec3(vehicle->GetPosition().x, vehicle->GetPosition().y + 1, vehicle->GetPosition().z));
+
+		}*/
+
+		App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetForwardVector().x * CAMERAOFFSET_X,
+			vehicle->GetPosition().y + CAMERAOFFSET_Y,
+			vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERAOFFSET_Z);
+		
+		App->camera->LookAt(vec3(vehicle->GetPosition().x, vehicle->GetPosition().y + 1, vehicle->GetPosition().z));
+
 	}
+	else
+	{
 
-	// vehicle has no body!?!?!?!?
-
-	//App->camera->Position.Set(vehicle->GetPosition().x - vehicle->GetForwardVector().x * CAMERAOFFSET_X,
-	//	vehicle->GetPosition().y + CAMERAOFFSET_Y,
-	//	vehicle->GetPosition().z - vehicle->GetForwardVector().z * CAMERAOFFSET_Z);
-	//App->camera->LookAt(vehicle->GetPosition());
-
-	App->camera->Position.Set(vehicle->GetPosition().x ,
-		vehicle->GetPosition().y + CAMERAOFFSET_Y,
-		vehicle->GetPosition().z - 10);
-	App->camera->LookAt(vehicle->GetPosition());
-
+	}
 	
 	return UPDATE_CONTINUE;
 }
