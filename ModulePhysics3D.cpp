@@ -405,7 +405,7 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		//c->SetPos(0, 0, i);
 		c->SetPos(1.5, 0.8 * cos(2 * 3.14f * i / info_t.num_wheels), -2 * sin(2 * 3.14f * i / info_t.num_wheels));
 		c->SetRotation( 90, vec3(0, 1, 0));
-		c->SetRotation(-90 * sin(2 * 3.14 * i / info_t.num_wheels), vec3(1, 0, 0));
+		
 		aux_a[i] = PhysBody3D();
 		aux_a[i].SetBodyCube(c, 1);
 		aux_a[i].parentPrimitive->color = Red;
