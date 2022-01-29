@@ -396,6 +396,7 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 
 	PhysBody3D* aux_a = new PhysBody3D[info_t.num_wheels];
 
+	int half = info_t.num_wheels * 0.5;
 
 	for (int i = 0; i < info_t.num_wheels; i++)
 	{
@@ -403,14 +404,34 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		
 		c = new Cube(info_t.wheels[i].width, info_t.wheels[i].depth, info_t.wheels[i].height);
 		//c->SetPos(0, 0, i);
-		c->SetPos(1.5, 0.8 * cos(2 * 3.14f * i / info_t.num_wheels), -2 * sin(2 * 3.14f * i / info_t.num_wheels));
-		c->SetRotation( 90, vec3(0, 1, 0));
+		//c->SetPos(1.5, 0.8 * cos(2 * 3.14f * i / info_t.num_wheels), -2 * sin(2 * 3.14f * i / info_t.num_wheels));
+		//c->SetRotation( 90, vec3(0, 1, 0));
+		//
+		//aux_a[i] = PhysBody3D();
+		//aux_a[i].SetBodyCube(c, 1);
+		//aux_a[i].parentPrimitive->color = Red;
+
+		if (i>half)
+		{
+			//up 
+			c->SetPos(1.5f, 2.f, ((float)info_t.num_wheels-(float)i) * 0.51f-2.0f);
+			c->SetRotation(90, vec3(0, 1, 0));
 		
+		}
+		else
+		{
+			// down
+			c->SetPos(1.5f, 0.1f, (float)i * 0.51f-2.0f);
+			c->SetRotation(90, vec3(0, 1, 0));
+		}
+		
+
 		aux_a[i] = PhysBody3D();
 		aux_a[i].SetBodyCube(c, 1);
 		aux_a[i].parentPrimitive->color = Red;
 		
 	}
+
 	aux_a[0].parentPrimitive->color = Blue;
 	aux_a[18].parentPrimitive->color = Green;
 
@@ -419,16 +440,16 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 
 		if (i == 0)
 		{
-			App->physics->AddConstraintHinge(aux_a[18], aux_a[0],
-				vec3(-info_t.wheels[i].width*0.5, info_t.wheels[18].height*0.5, 0), vec3(info_t.wheels[18].width * 0.5, info_t.wheels[18].height*0.5, 0), vec3(0, 0, 2), vec3(0, 0, 2), true);
+			//App->physics->AddConstraintHinge(aux_a[18], aux_a[0],
+			//	vec3(-info_t.wheels[i].width*0.5, info_t.wheels[18].height*0.5, 0), vec3(info_t.wheels[18].width * 0.5, info_t.wheels[18].height*0.5, 0), vec3(0, 0, 2), vec3(0, 0, 2), true);
 			App->physics->AddConstraintHinge(aux_a[17], aux_a[18],
-				vec3(-info_t.wheels[18].width*0.5, info_t.wheels[18].height*0.5, 0), vec3(info_t.wheels[18].width * 0.5, info_t.wheels[18].height*0.5, 0), vec3(0, 0, 2), vec3(0, 0, 2), true);
+				vec3(-info_t.wheels[18].width*0.5, 0, 0), vec3(info_t.wheels[18].width * 0.5, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1), true);
 			
 		}
 		else 
 		{
-			App->physics->AddConstraintHinge(aux_a[i - 1], aux_a[i],
-				vec3(-info_t.wheels[i - 1].width*0.5, info_t.wheels[18].height*0.5, 0), vec3(info_t.wheels[18].width * 0.5, info_t.wheels[18].height*0.5, 0), vec3(0, 0, 2), vec3(0, 0, 2), true);
+			//App->physics->AddConstraintHinge(aux_a[i - 1], aux_a[i],
+			//	vec3(-info_t.wheels[i - 1].width*0.5, 0, 0), vec3(info_t.wheels[18].width * 0.5, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1), true);
 		}
 		
 	}
