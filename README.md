@@ -10,7 +10,7 @@ So that is what you will find in here:
 
 - Gravity, Lift and Drag (some FUYM'ly implemented)
 - A bridge made with Hinge constraint
-- A loose situation: Being stuck like a turte on his back (in this case on his side, due too the marvellous clipping wheels) witch will force you to restart with the R key
+- A loose situation: Being stuck like a turte on his back (in this case on his side, due too the marvellous clipping wheels) witch will force you to restart with the Q key
 - You can win by getting to the last platform
 
 --> Kinda hard but still fun (The camera spin is made on purpose, it is made to make you feel dizzy, like in real life)
@@ -18,6 +18,7 @@ So that is what you will find in here:
 The keys are:
 
 - R to restart
+- Q to restart when you are in a bad position
 - WASD to moove (only forward movement)
 - F1 Debug Mode
 - F2 Free Camera
