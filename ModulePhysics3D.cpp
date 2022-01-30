@@ -87,13 +87,13 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 		{
 			PhysBody3D* pbodyA = (PhysBody3D*)obA->getUserPointer();
 			PhysBody3D* pbodyB = (PhysBody3D*)obB->getUserPointer();
-
-			if(pbodyA && pbodyB)
+	/*
+			if(pbodyA && pbodyB )
 			{
 				p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
 				while(item)
 				{
-					item->data->OnCollision(pbodyA, pbodyB);
+ 					item->data->OnCollision(pbodyA, pbodyB);
 					item = item->next;
 				}
 
@@ -103,8 +103,9 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 					item->data->OnCollision(pbodyB, pbodyA);
 					item = item->next;
 				}
-			}
+			}*/
 		}
+		
 	}
 
 	return UPDATE_CONTINUE;
@@ -367,7 +368,7 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 	btRigidBody* body = new btRigidBody(rbInfo);
 	body->setContactProcessingThreshold(BT_LARGE_FLOAT);
 	body->setActivationState(DISABLE_DEACTIVATION);
-
+	
 	world->addRigidBody(body);
 
 	btRaycastVehicle::btVehicleTuning tuning;
@@ -378,8 +379,9 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 	tuning.m_suspensionDamping = info.suspensionDamping;
 	tuning.m_suspensionStiffness = info.suspensionStiffness;
 
+	
 	btRaycastVehicle* vehicle = new btRaycastVehicle(tuning, body, vehicle_raycaster);
-
+	
 	vehicle->setCoordinateSystem(0, 1, 2);
 
 	for (int i = 0; i < info.num_wheels; ++i)
@@ -428,6 +430,7 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 
 		aux_a[i] = PhysBody3D();
 		aux_a[i].SetBodyCube(c, 1);
+		aux_a[i].body->setUserPointer(&aux_a[i]);
 		aux_a[i].parentPrimitive->color = Red;
 		
 	}
@@ -457,6 +460,7 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 	
 	// ---------------------
 	PhysTrack3D* pvehicle = new PhysTrack3D(body, vehicle, info, info_t, info_t.num_wheels, aux_a);
+	pvehicle->body->setUserPointer(pvehicle);
 	world->addVehicle(vehicle);
 	vehicles.add(pvehicle);
 	 

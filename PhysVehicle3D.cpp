@@ -34,10 +34,10 @@ void PhysVehicle3D::Render_v()
 	{
 		wheel.radius = info.wheels[i].radius;
 		wheel.height = info.wheels[i].width;
-
+	
 		//vehicle->updateWheelTransform(i);
 		vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
-
+	
 		wheel.Render();
 	}
 
@@ -171,10 +171,10 @@ void PhysTrack3D::Render()
 	{
 		wheel.radius = info_w.wheels[i].radius;
 		wheel.height = info_w.wheels[i].width;
-
+	
 		//vehicle->updateWheelTransform(i);
 		vehicle_t->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(&wheel.transform);
-
+	
 		wheel.Render();
 	}
 	

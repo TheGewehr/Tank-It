@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "p2List.h"
 
 #define MAX_SNAKE 2
 
@@ -46,4 +47,8 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+	p2List<PhysBody3D> world;
+	p2List<Cube*> primList;
+
 };
