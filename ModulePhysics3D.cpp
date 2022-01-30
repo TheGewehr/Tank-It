@@ -75,6 +75,7 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 {
 	if(App->input->GetKey(SDL_SCANCODE_9) == KEY_REPEAT) world->stepSimulation(0.005, 15);
 
+	world->stepSimulation(dt, 30);
 	int numManifolds = world->getDispatcher()->getNumManifolds();
 	for(int i = 0; i<numManifolds; i++)
 	{
@@ -229,6 +230,7 @@ PhysBody3D* ModulePhysics3D::AddBody(Cube& cube, float mass)
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.add(colShape);
 
+	
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(&cube.transform);
 
@@ -243,6 +245,7 @@ PhysBody3D* ModulePhysics3D::AddBody(Cube& cube, float mass)
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body);
 
+	pbody->parentPrimitive = &cube;
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
 	bodies.add(pbody);
@@ -416,14 +419,14 @@ PhysTrack3D* ModulePhysics3D::AddVehicleTrack(const VehicleInfo& info, const Tra
 		if (i>half)
 		{
 			//up 
-			c->SetPos(1.5f, 2.f, ((float)info_t.num_wheels-(float)i) * 0.51f-2.0f);
+			c->SetPos(11.5f, 2.f, ((float)info_t.num_wheels-(float)i) * 0.51f-2.0f);
 			c->SetRotation(90, vec3(0, 1, 0));
 		
 		}
 		else
 		{
 			// down
-			c->SetPos(1.5f, 0.1f, (float)i * 0.51f-2.0f);
+			c->SetPos(11.5f, 0.1f, (float)i * 0.51f-2.0f);
 			c->SetRotation(90, vec3(0, 1, 0));
 		}
 		
@@ -531,3 +534,4 @@ int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
 }
+

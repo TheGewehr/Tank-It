@@ -119,7 +119,7 @@ Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, siz
 Cube::Cube(const vec3& _size, float mass) : Primitive(), size(_size)
 {
 	type = PrimitiveTypes::Primitive_Cube;
-	body.SetBodyCube(this, mass);
+	//body.SetBodyCube(this, mass);
 }
 
 vec3 Cube::GetSize() const

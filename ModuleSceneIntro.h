@@ -13,6 +13,19 @@ struct PhysBody3D;
 struct PhysMotor3D;
 class Cube;
 
+enum class ORIENTATION
+{
+	NORTH = 0,
+	SOUTH,
+	EAST,
+	WEST,
+	NORTHEAST,
+	NORTHWEST,
+	SOUTHEAST,
+	SOUTHWEST
+};
+
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -24,9 +37,11 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	
+	void CreateDragon(const float& x, const float& y, const float& z, const float& width, const float& length, vec3 vec3, float mass, ORIENTATION orientation);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-
+	PhysBody3D AddToWorld_(vec3 col, vec3 pos, bool mass);
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
@@ -50,5 +65,7 @@ public:
 
 	p2List<PhysBody3D> world;
 	p2List<Cube*> primList;
-
+	bool win_con = false;
+	vec3 win;
+	vec3 win_s;
 };

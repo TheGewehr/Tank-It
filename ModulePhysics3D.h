@@ -16,6 +16,7 @@ struct PhysTrack3D;
 struct VehicleInfo;
 struct TrackInfo;
 
+
 class ModulePhysics3D : public Module
 {
 public:
@@ -30,7 +31,7 @@ public:
 	bool CleanUp();
 
 	PhysBody3D* AddBody(const Sphere& sphere, float mass = 1.0f);
-	PhysBody3D* AddBody(Cube& cube, float mass = 1.0f);
+	PhysBody3D*	AddBody(Cube& cube, float mass = 1.0f);
 	PhysBody3D* AddBody(const Cylinder& cylinder, float mass = 1.0f);
 
 	void AddBodyToWorld(btRigidBody* body);
@@ -41,6 +42,8 @@ public:
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisS, const vec3& axisB, bool disable_collision = false);
+
+	
 
 private:
 

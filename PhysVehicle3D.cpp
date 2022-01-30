@@ -125,13 +125,32 @@ PhysTrack3D::~PhysTrack3D()
 
 void PhysTrack3D::ApplyEngineForce(float force)
 {
+	btTransform trans = vehicle_t->getChassisWorldTransform();
+		
+	
+	float N = force * 500 * 9.8; // Mass * grav
+
+	float drag = N * 0.00005 ; // N * nu
+	
+	
+	// seno del angulo por total drag = drag
+	// cos del angulo por tota drag = lift
+
+	
 	for (int i = 0; i < info_w.num_wheels; ++i)
 	{
 		if (info_w.wheels[i].drive == true)
 		{
-			vehicle_t->applyEngineForce(force, i);
+			
+			vehicle_t->applyEngineForce(force - drag, i);
 		}
 	}
+	
+	// DRAG FUIM
+	float vel = GetKmh();
+	btTransform a = vehicle_t->getChassisWorldTransform();
+	body->applyForce(btVector3(0, vel * 0.005, 0), a.getOrigin());
+
 }
 
 // ----------------------------------------------------------------------------
@@ -209,7 +228,7 @@ void PhysTrack3D::Render()
 // ----------------------------------------------------------------------------
 float PhysTrack3D::GetKmh() const
 {
-	return float();
+	return vehicle_t->getCurrentSpeedKmHour();
 }
 
 vec3 PhysVehicle3D::GetForwardVector() const
