@@ -35,10 +35,11 @@ bool ModuleSceneIntro::Start()
 
 	PhysBody3D phys = *App->physics->AddBody(*c, 0.0f);
 	phys.SetBodyCube(c, 0.0f);
+	
 	phys.body->setUserPointer(&phys);
 	//map.PushBack(c);
 	world.add(phys);
-	primList.add(*c);
+	primList.add(c);
 	//PhysBody3D i = world->getFirst();
 
 	//delete c;
@@ -91,6 +92,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	//}
 
 
+	
+	
+
+	for (p2List_item<Cube*>* control = primList.getFirst(); control != nullptr; control = control->next)
+	{
+		control->data->Render();
+
+	}
 	return UPDATE_CONTINUE;
 }
 

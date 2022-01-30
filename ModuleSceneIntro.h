@@ -49,6 +49,6 @@ public:
 	PhysMotor3D* right_wheel;
 
 	p2List<PhysBody3D> world;
-	p2List<Cube> primList;
+	p2List<Cube*> primList;
 
 };

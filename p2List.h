@@ -213,7 +213,7 @@ public:
 	}
 
 
-	/**
+	/*
 	* returns the first apperance of data as index (-1 if not found)
 	*/
 	p2List_item<tdata>* findNode(const tdata& data)
