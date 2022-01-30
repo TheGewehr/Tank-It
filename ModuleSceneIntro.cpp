@@ -130,7 +130,8 @@ bool ModuleSceneIntro::Start()
 			vec3(-4, 0, 0), vec3(4, 0, 0), vec3(0, 0, 1), vec3(0, 0, 1));
 	}
 	
-	win = { -383, 42, 170 };
+	win = { -383, 42, 170
+	};
 	win_s = { 20, 20, 20 };
 	//->SetPos(-300, 45, 170);
 	return ret;
